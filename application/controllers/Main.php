@@ -19,28 +19,41 @@ class Main extends My_Controller {
     
     //put your code here
     public function index(){  
-        $this->production = TRUE;
+        $this->production = FALSE;
         if($this->production) $this->_production();
-        else $this->_under_construction();                
+        else $this->_under_development();                
     }
     
     public function beta(){
         $this->_production();
     }
     
+    /**
+     * unused
+     */
     private function _under_construction(){
         $this->load->view('construction', $this->data);
-    }  
+    } 
     
-    private function _production(){
-        $this->_cek_user_login();
-        $this->load->view('starter', $this->data);
-        //$this->_cek_user_login();
-        //echo "prod";
+    private function _under_development(){
+        $this->load->view('development', $this->data);
     }
     
+    private function _production(){
+        //cek login
+        //$this->_cek_user_login();
+        $this->load->view('starter', $this->data);
+    }
+    
+    /**
+     * unused
+     */
     public function register(){
         $this->load->view('register', $this->data);
+    }
+    
+    public function signup(){
+        $this->load->view('signup', $this->data);
     }
     
     public function login(){
