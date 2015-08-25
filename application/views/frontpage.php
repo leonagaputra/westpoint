@@ -26,7 +26,7 @@
         <link href="<?php echo $base_url; ?>css/font-awesome/css/font-awesome.min.css?v=<?php echo $version; ?>" rel="stylesheet">
         <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
+        <script src='https://www.google.com/recaptcha/api.js'></script>
         
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,38 +103,9 @@
         </nav>
         <!-- Modal -->
         <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Login</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form">
-                            <div class="form-group">
-                                <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-                                <input type="text" class="form-control" id="usrname" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                                <input type="text" class="form-control" id="psw" placeholder="Enter password">
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="" checked>Remember me</label>
-                            </div>
-                            <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>                        
-                        <p>Forgot <a href="#">Password?</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php
+            require_once 'frontpage_login.php';
+        ?>
         
         <!--modal kelas-->
         <div class="modal fade" id="kelasModal1" role="dialog">
@@ -416,32 +387,38 @@
                             <div class="row control-group">
                                 <div class="form-group col-xs-12 floating-label-form-group controls">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control" placeholder="Nama" id="name" required data-validation-required-message="Please enter your name.">
+                                    <input maxlength="100" type="text" class="form-control" placeholder="Nama" id="name" required data-validation-required-message="Please enter your name.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="row control-group">
                                 <div class="form-group col-xs-12 floating-label-form-group controls">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" placeholder="Email" id="email" required data-validation-required-message="Please enter your email address.">
+                                    <input maxlength="100" type="email" class="form-control" placeholder="Email" id="email" required data-validation-required-message="Please enter your email address.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="row control-group">
                                 <div class="form-group col-xs-12 floating-label-form-group controls">
                                     <label>Nomor Telepon</label>
-                                    <input type="tel" class="form-control" placeholder="Nomor Telepon" id="phone" required data-validation-required-message="Please enter your phone number.">
+                                    <input maxlength="50" type="tel" class="form-control" placeholder="Nomor Telepon" id="phone" required data-validation-required-message="Please enter your phone number.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
                             <div class="row control-group">
                                 <div class="form-group col-xs-12 floating-label-form-group controls">
                                     <label>Pesan</label>
-                                    <textarea rows="5" class="form-control" placeholder="Pesan" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                    <textarea rows="3" class="form-control" placeholder="Pesan" id="message" required data-validation-required-message="Please enter a message."></textarea>
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
-                            <br>
+                            <!--<div class="row control-group">
+                                <div class="form-group col-xs-12 floating-label-form-group controls">
+                                    <label>Captcha</label>
+                                    <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>-->                            
                             <div id="success"></div>
                             <div class="row">
                                 <div class="form-group col-xs-12">

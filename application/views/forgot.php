@@ -109,19 +109,13 @@
 
         <!-- Header -->
         <header>        
-            <div class="container" style="color:#000;text-align: left;">
-                <h1 style="color:#fff;text-align: center;">Daftar BelajarUjian</h1>
+            <div class="container" style="color:#000;text-align: left;">                
                 <div class="row">
+                    <div class="">
                     <div class="well bs-component">
-                        <form class="form-horizontal" action="<?php echo $base_url?>index.php/main/join_belajar_ujian" method="POST">
-                            <fieldset>
-                                <legend style="text-align:center;">Anda akan memulai dengan akun free trial</legend>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputNama">Nama <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <input name="nama" type="text" maxlength="100" placeholder="Nama" id="inputNama" class="form-control" required data-validation-required-message="Masukkan Nama Anda">                                        
-                                    </div>
-                                </div>
+                        <form class="form-horizontal" action="<?php echo $base_url?>index.php/main/signin" method="POST">
+                            <fieldset>                                
+                                <legend style="text-align:center;">Masukkan email Anda, kami akan mengirimkan langkah-langkah penggantian password ke email Anda.</legend>                                
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputEmail">Email <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
@@ -129,42 +123,17 @@
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputPassword">Password <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <input name="password" type="password" maxlength="100" placeholder="Password" id="inputPassword" class="form-control" required>                                        
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputHP">Nomor HP <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <input name="hape" type="text" maxlength="100" placeholder="Nomor HP" id="inputPassword" class="form-control" required>                                        
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputPerusahaan">Perusahaan</label>
-                                    <div class="col-lg-10">
-                                        <input name="perusahaan" type="text" maxlength="100" placeholder="Perusahaan" id="inputPerusahaan" class="form-control" >                                        
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputCaptcha">Captcha</label>
-                                    <div class="col-lg-10">
-                                        <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
-                                        <?php if($captcha_error){?>
-                                            <div class="text-danger">Pengenalan captcha gagal</div>
-                                        <?php }?>
-                                    </div>
-                                    
-                                </div>
+                                
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">                      
-                                        <button class="btn btn-primary" type="submit">Join BelajarUjian</button>
+                                        <button class="btn btn-primary" type="submit">Reset Password</button>
                                     </div>
                                 </div>
                             </fieldset>
                         </form>
-                        <div class="btn btn-primary btn-xs" id="source-button" style="display: none;">&lt; &gt;</div></div>
+                        <div class="btn btn-primary btn-xs" id="source-button" style="display: none;">&lt; &gt;</div>                            
+                    </div>
+                    </div>
                 </div>
             </div>
         </header>    

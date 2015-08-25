@@ -109,62 +109,48 @@
 
         <!-- Header -->
         <header>        
-            <div class="container" style="color:#000;text-align: left;">
-                <h1 style="color:#fff;text-align: center;">Daftar BelajarUjian</h1>
+            <div class="container" style="color:#000;text-align: left;">                
                 <div class="row">
+                    <div class="">
                     <div class="well bs-component">
-                        <form class="form-horizontal" action="<?php echo $base_url?>index.php/main/join_belajar_ujian" method="POST">
-                            <fieldset>
-                                <legend style="text-align:center;">Anda akan memulai dengan akun free trial</legend>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputNama">Nama <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <input name="nama" type="text" maxlength="100" placeholder="Nama" id="inputNama" class="form-control" required data-validation-required-message="Masukkan Nama Anda">                                        
+                        <form class="form-horizontal" action="<?php echo $base_url?>index.php/backend/do_signin" method="POST">
+                            <fieldset>  
+                                <br/><br/>
+                                <?php if(isset($email_success) && $email_success) {?>
+                                    <div class="alert alert-dismissible alert-success">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <strong>Sukses!</strong> Email instruksi untuk penggantian password telah dikirimkan ke email Anda.
                                     </div>
-                                </div>
+                                <?php } else if (isset($gagal_login) && $gagal_login) {?>
+                                    <div class="alert alert-dismissible alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <strong>Error!</strong> Email atau password yang Anda masukkan salah.
+                                    </div>
+                                <?php } ?>
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputEmail">Email <span class="text-danger">*</span></label>
+                                    <label class="col-lg-2 control-label" for="inputEmail">Email </label>
                                     <div class="col-lg-10">
                                         <input name="email" type="email" maxlength="100" placeholder="Email" id="inputEmail" class="form-control" required data-validation-required-message="Masukkan Email Anda">
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputPassword">Password <span class="text-danger">*</span></label>
+                                    <label class="col-lg-2 control-label" for="inputEmail">Password </label>
                                     <div class="col-lg-10">
-                                        <input name="password" type="password" maxlength="100" placeholder="Password" id="inputPassword" class="form-control" required>                                        
+                                        <input name="password" type="password" maxlength="100" placeholder="Password" id="inputEmail" class="form-control" required data-validation-required-message="Masukkan Password Anda">
+                                        <p class="help-block text-danger"></p>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputHP">Nomor HP <span class="text-danger">*</span></label>
-                                    <div class="col-lg-10">
-                                        <input name="hape" type="text" maxlength="100" placeholder="Nomor HP" id="inputPassword" class="form-control" required>                                        
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputPerusahaan">Perusahaan</label>
-                                    <div class="col-lg-10">
-                                        <input name="perusahaan" type="text" maxlength="100" placeholder="Perusahaan" id="inputPerusahaan" class="form-control" >                                        
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-2 control-label" for="inputCaptcha">Captcha</label>
-                                    <div class="col-lg-10">
-                                        <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
-                                        <?php if($captcha_error){?>
-                                            <div class="text-danger">Pengenalan captcha gagal</div>
-                                        <?php }?>
-                                    </div>
-                                    
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">                      
-                                        <button class="btn btn-primary" type="submit">Join BelajarUjian</button>
+                                        <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-off"></span> Login</button>
                                     </div>
                                 </div>
                             </fieldset>
                         </form>
-                        <div class="btn btn-primary btn-xs" id="source-button" style="display: none;">&lt; &gt;</div></div>
+                        <div class="btn btn-primary btn-xs" id="source-button" style="display: none;">&lt; &gt;</div>                            
+                    </div>
+                    </div>
                 </div>
             </div>
         </header>    

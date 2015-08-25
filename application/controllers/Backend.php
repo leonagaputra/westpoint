@@ -7,7 +7,7 @@ if (!defined('BASEPATH'))
  */
 include_once('My_Controller.php');
 
-class Main extends My_Controller {
+class Backend extends My_Controller {
 
     var $production;
     var $email_to;
@@ -28,47 +28,7 @@ class Main extends My_Controller {
             $this->_under_development();
     }
 
-    public function beta() {
-        $this->_production();
-    }
-
-    /**
-     * unused
-     */
-    private function _under_construction() {
-        $this->load->view('construction', $this->data);
-    }
-
-    private function _under_development() {
-        $this->load->view('development', $this->data);
-    }
-
-    private function _production() {
-        //cek login
-        //$this->_cek_user_login();
-        $this->load->view('starter', $this->data);
-    }
-
-    /**
-     * unused
-     */
-    public function register() {
-        $this->load->view('register', $this->data);
-    }
-
-    public function signup() {
-        $this->data['captcha_error'] = FALSE;
-        $this->load->view('signup', $this->data);
-    }
-
-    public function login() {
-        $this->load->view('login', $this->data);
-    }
-
-    public function frontpage() {
-        $this->load->view('frontpage', $this->data);
-    }
-
+    
     private function _cek_user_login() {
         //echo "test". $this->session->userdata('username')." lalala";exit;
         if (!$this->session->userdata('VUSERNAME')) {
@@ -78,8 +38,6 @@ class Main extends My_Controller {
         $this->data['username'] = strtoupper($this->session->userdata('VUSERNAME'));
         //echo "test22". $this->session->userdata('username')." lalala";exit;
     }
-    
-    
 
     function logout() {
         $this->session->sess_destroy();
@@ -125,57 +83,7 @@ class Main extends My_Controller {
         return $result;
     }
 
-    function join_belajar_ujian() {
-        $result = $this->_check_captcha($_POST['g-recaptcha-response']);
-        $result = json_decode($result);
-        //print_r($result);
-        if ($result->success == 1) {
-            //CAPTCHA sukses
-            //registrasi
-            $data = array(
-                "VNAMA" => $this->security($this->input->post('nama', TRUE)),
-                "VEMAIL" => $this->security($this->input->post('email', TRUE)),
-                "VPASSWORD" => $this->security($this->input->post('password', TRUE)),
-                "VPERUSAHAAN" => $this->security($this->input->post('perusahaan', TRUE)),
-                "VHPNUM" => $this->security($this->input->post('hape', TRUE)),
-                "VCREA" => "SYSTEM",
-                "DCREA" => date("Y-m-d H:i:s")
-            );
-            //print_r($data);
-            $where = array(
-                "VEMAIL" => $this->security($this->input->post('email', TRUE))
-            );
-            $cnt = $this->gm->get("users", $where, TRUE, TRUE);
-            if ($cnt->cnt == 0) {
-                $id = $this->gm->insert("users", $data);
-                if ($id) {
-                    $this->data['msg'] = "Proses Registrasi Sukses";
-                    $this->_success();
-                } else {
-                    $this->data['error_msg'] = "Proses Penyimpanan Error";
-                    $this->_failed();
-                }
-            } else {
-                $this->data['error_msg'] = "Email Telah Terdaftar";
-                $this->_failed();
-            }
-        } else {
-            //CAPTCHA gagal
-            $this->data['captcha_error'] = TRUE;
-            $this->load->view('signup', $this->data);
-        }
-        //echo 123;
-    }
-
-    private function _success() {
-        $this->load->view('success', $this->data);
-    }
-
-    private function _failed() {
-        //$this->data['error_msg'] = "Email Telah Terdaftar";
-        $this->load->view('failed', $this->data);
-    }
-
+    
     /**
      * sample curl function
      */
@@ -212,37 +120,7 @@ class Main extends My_Controller {
         echo $output;
 
         //print_r($output);
-    }
-    
-    /**
-     * contact me
-     */
-    function contact_me(){            
-        $data = array(
-            'VNAME' => $this->security($this->input->post('name', TRUE)),
-            'VHPNUM' => $this->security($this->input->post('phone', TRUE)),
-            'VEMAIL' => $this->security($this->input->post('email', TRUE)),
-            'VMSG' => $this->security($this->input->post('message', TRUE)),
-            'VCREA' => 'SYSTEM',
-            'DCREA' => date("Y-m-d H:i:s")
-        );
-        $this->gm->insert("contactus", $data);
-    }
-    
-    function forgot(){
-        $this->load->view('forgot', $this->data);
-    }
-    
-    function signin(){
-        $email = $this->security($this->input->post('email', TRUE));
-        $gagal_login = $this->security($this->input->get('gagal_login', TRUE));
-        if($email){
-            $this->data['email_success'] = TRUE;
-        } else if($gagal_login == 1){
-            $this->data['gagal_login'] = TRUE;
-        }
-        $this->load->view('signin', $this->data);
-    }
+    }        
 
     /**
      * sample function to send mail
@@ -260,5 +138,30 @@ class Main extends My_Controller {
         else
             echo "There is error in sending mail!";
     }
+    
+    function do_signin(){
+        $data = array();
+        $data['VEMAIL'] = $this->security($this->input->post('email', TRUE));
+        $data['VPASSWORD'] = $this->security($this->input->post('password', TRUE));
+       
+        if($result = $this->gm->get("users", $data, TRUE))
+        {            
+            $this->data['username'] = strtoupper($data['VEMAIL']);           
+            $this->session->set_userdata((array)$result);
+            header('location:'.$this->data['base_url'] .'index.php/backend/home');            
+        }
+        else{
+            header('location:'.$this->data['base_url'] .'index.php/main/signin?gagal_login=1');
+        }
+        $this->index();
+    }
+    
+    function home() {
+        //cek login
+        //$this->_cek_user_login();
+        $this->load->view('starter', $this->data);
+    }
 
 }
+
+
