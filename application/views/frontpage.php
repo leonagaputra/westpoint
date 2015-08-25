@@ -412,13 +412,13 @@
                                     <p class="help-block text-danger"></p>
                                 </div>
                             </div>
-                            <!--<div class="row control-group">
+                            <div class="row control-group">
                                 <div class="form-group col-xs-12 floating-label-form-group controls">
                                     <label>Captcha</label>
                                     <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
                                     <p class="help-block text-danger"></p>
                                 </div>
-                            </div>-->                            
+                            </div>                            
                             <div id="success"></div>
                             <div class="row">
                                 <div class="form-group col-xs-12">

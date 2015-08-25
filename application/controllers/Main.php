@@ -217,16 +217,22 @@ class Main extends My_Controller {
     /**
      * contact me
      */
-    function contact_me(){            
-        $data = array(
-            'VNAME' => $this->security($this->input->post('name', TRUE)),
-            'VHPNUM' => $this->security($this->input->post('phone', TRUE)),
-            'VEMAIL' => $this->security($this->input->post('email', TRUE)),
-            'VMSG' => $this->security($this->input->post('message', TRUE)),
-            'VCREA' => 'SYSTEM',
-            'DCREA' => date("Y-m-d H:i:s")
-        );
-        $this->gm->insert("contactus", $data);
+    function contact_me(){   
+        $result = $this->_check_captcha($_POST['captcha']);
+        $result = json_decode($result);
+        //print_r($result);
+        if ($result->success == 1){
+            $data = array(
+                'VNAME' => $this->security($this->input->post('name', TRUE)),
+                'VHPNUM' => $this->security($this->input->post('phone', TRUE)),
+                'VEMAIL' => $this->security($this->input->post('email', TRUE)),
+                'VMSG' => $this->security($this->input->post('message', TRUE)),
+                'VCREA' => 'SYSTEM',
+                'DCREA' => date("Y-m-d H:i:s")
+            );
+            $this->gm->insert("contactus", $data);
+        }
+        
     }
     
     function forgot(){
