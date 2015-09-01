@@ -31,7 +31,7 @@ class Backend extends My_Controller {
     
     private function _cek_user_login() {
         //echo "test". $this->session->userdata('username')." lalala";exit;
-        if (!$this->session->userdata('VUSERNAME')) {
+        if (!$this->session->userdata('VEMAIL')) {
             //echo "test";exit;            
             header('location:' . $this->data['base_url'] . "index.php/main/frontpage");
         }
@@ -41,7 +41,7 @@ class Backend extends My_Controller {
 
     function logout() {
         $this->session->sess_destroy();
-        header('location:' . $this->data['base_url'] . 'index.php/main/login');
+        header('location:' . $this->data['base_url'] . 'index.php/main/frontpage');
     }
 
     private function _check_captcha($recaptcha) {
@@ -141,11 +141,27 @@ class Backend extends My_Controller {
     
     function do_signin(){
         $data = array();
+        
         $data['VEMAIL'] = $this->security($this->input->post('email', TRUE));
         $data['VPASSWORD'] = $this->security($this->input->post('password', TRUE));
+        $var_cookie = 'belajarujian_remember';
+        if(isset($_POST['remember']) && $_POST['remember'] ==1){
+            //set cookie
+            //1 year cookie
+            $year = time() + 31536000;
+            $cookie = array(
+                'name'   => $var_cookie,
+                'value'  => $data['VEMAIL'],
+                'expire' => $year                
+            );
+            $this->input->set_cookie($cookie); 
+        } else {
+            delete_cookie($var_cookie);
+        }        
        
         if($result = $this->gm->get("users", $data, TRUE))
         {            
+            //print_r($result);exit;
             $this->data['username'] = strtoupper($data['VEMAIL']);           
             $this->session->set_userdata((array)$result);
             header('location:'.$this->data['base_url'] .'index.php/backend/home');            
@@ -158,8 +174,18 @@ class Backend extends My_Controller {
     
     function home() {
         //cek login
-        //$this->_cek_user_login();
-        $this->load->view('starter', $this->data);
+        $this->_cek_user_login();
+        $this->data['nama'] = $this->session->userdata('VNAMA');
+        $this->data['backend_page'] = 'homepage.php';
+        $this->load->view('home', $this->data);
+    }
+    
+    function paket_soal(){
+        //cek login
+        $this->_cek_user_login();
+        $this->data['nama'] = $this->session->userdata('VNAMA');
+        $this->data['backend_page'] = 'paket_soal.php';
+        $this->load->view('home', $this->data);
     }
 
 }

@@ -11,12 +11,15 @@ class Main extends My_Controller {
 
     var $production;
     var $email_to;
+    var $this_cookie;
 
     public function __construct() {
         parent::__construct();
         $this->load->model('gen_model', 'gm');
         $this->data['company'] = "BelajarUjian.com";
         $this->email_to = "leo.nagaputra@gmail.com";
+        $this->this_cookie = 'belajarujian_remember';
+        
     }
 
     //put your code here
@@ -56,7 +59,12 @@ class Main extends My_Controller {
         $this->load->view('register', $this->data);
     }
 
+    /**
+     * frontpage
+     * signup
+     */
     public function signup() {
+        $this->data['remember_cookie'] = $this->_get_cookie();
         $this->data['captcha_error'] = FALSE;
         $this->load->view('signup', $this->data);
     }
@@ -64,18 +72,36 @@ class Main extends My_Controller {
     public function login() {
         $this->load->view('login', $this->data);
     }
+    
+    /**
+     * frontpage
+     * check
+     */
+    private function _front_check(){
+        $this->_cek_user_login();
+        $this->data['remember_cookie'] = $this->_get_cookie();
+    }
 
+    /**
+     * frontpage
+     */
     public function frontpage() {
+        $this->_front_check();
+        //echo $this->data['remember_cookie'];exit;
         $this->load->view('frontpage', $this->data);
+    }
+    
+    private function _get_cookie(){
+        return get_cookie($this->this_cookie);
     }
 
     private function _cek_user_login() {
         //echo "test". $this->session->userdata('username')." lalala";exit;
-        if (!$this->session->userdata('VUSERNAME')) {
+        if ($this->session->userdata('VEMAIL')) {
             //echo "test";exit;            
-            header('location:' . $this->data['base_url'] . "index.php/main/frontpage");
+            header('location:' . $this->data['base_url'] . "index.php/backend/home");
         }
-        $this->data['username'] = strtoupper($this->session->userdata('VUSERNAME'));
+        //$this->data['username'] = strtoupper($this->session->userdata('VUSERNAME'));
         //echo "test22". $this->session->userdata('username')." lalala";exit;
     }
     
@@ -125,6 +151,9 @@ class Main extends My_Controller {
         return $result;
     }
 
+    /**
+     * fungsi insert new user
+     */
     function join_belajar_ujian() {
         $result = $this->_check_captcha($_POST['g-recaptcha-response']);
         $result = json_decode($result);
@@ -167,11 +196,22 @@ class Main extends My_Controller {
         //echo 123;
     }
 
+    /**
+     * frontpage
+     * success
+     */
     private function _success() {
+        $this->_front_check();
         $this->load->view('success', $this->data);
     }
 
+    /**
+     * frontpage
+     * failed
+     */
     private function _failed() {
+        $this->_front_check();
+        
         //$this->data['error_msg'] = "Email Telah Terdaftar";
         $this->load->view('failed', $this->data);
     }
@@ -235,11 +275,22 @@ class Main extends My_Controller {
         
     }
     
+    /**
+     * frontpage
+     * forgot
+     */
     function forgot(){
+        $this->_front_check();
         $this->load->view('forgot', $this->data);
     }
     
+    /**
+     * frontpage
+     * signin
+     */
     function signin(){
+        $this->_front_check();
+        
         $email = $this->security($this->input->post('email', TRUE));
         $gagal_login = $this->security($this->input->get('gagal_login', TRUE));
         if($email){

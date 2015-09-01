@@ -11,14 +11,14 @@
                 <form method="post" action="<?php echo $base_url?>index.php/backend/do_signin">
                     <div class="form-group">
                         <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-                        <input name="email" type="text" class="form-control" id="email" placeholder="Enter email">
+                        <input name="email" type="text" class="form-control" id="email" placeholder="Enter email" value="<?php echo $remember_cookie; ?>">
                     </div>
                     <div class="form-group">
                         <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
                         <input name="password" type="password" class="form-control" id="password" placeholder="Enter password">
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="" checked>Remember me</label>
+                        <label><input type="checkbox" name="remember" value="1" checked>Remember me</label>
                     </div>
                     <button type="submit" class="btn btn-default btn-success"><span class="glyphicon glyphicon-off"></span> Login</button>
                 </form>
