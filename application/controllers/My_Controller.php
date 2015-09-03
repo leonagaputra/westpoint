@@ -12,6 +12,7 @@ class My_Controller extends CI_Controller {
         $this->data['base_app'] = $this->config->item('base_app');
         $this->data['base_url'] = $this->config->item('base_url');
         $this->data['version'] = "0.1";
+        $this->load->model('hak_akses', 'ha');
     }
 
     function index() {
@@ -105,6 +106,25 @@ class My_Controller extends CI_Controller {
             readfile($fullPath);
         } else
             die('File Not Found');
+    }
+    
+    function cek_user_akses(){
+        
+    }
+    
+    protected function get_user_menu($user_id){
+        //echo $user_id;
+        $menus = $this->ha->get_user_menu($user_id);
+        return $menus;
+    }
+    
+    protected function cek_hak_akses($user_id, $menu_path){
+        $akses = $this->ha->cek_hak_akses($user_id, $menu_path);
+        if(!$akses){
+            header('location:' . $this->data['base_url'] . "index.php/backend/home");
+        }
+        //print_r($akses);exit;
+        //return $akses;
     }
 
 }

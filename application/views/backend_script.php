@@ -6,3 +6,5 @@
         <script src="<?php echo $base_url; ?>js/bootstrap/bootstrap.min.js?v=<?php echo $version; ?>"></script>
         <!-- AdminLTE App -->
         <script src="<?php echo $base_url; ?>js/app.min.js?v=<?php echo $version; ?>"></script>
+        
+        <script src="<?php echo $base_url; ?>js/main_function.js?v=<?php echo $version; ?>"></script>

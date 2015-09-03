@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>BelajarUjian | User Page</title>
+        <title>BelajarUjian</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php
@@ -236,8 +236,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ul class="sidebar-menu">
                         <li class="header">Menu</li>
                         <!-- Optionally, you can add icons to the links -->
+                        <?php
+                            $print = "";
+                            foreach($menus as $menu){
+                                $print .= "<li ";
+                                    $print .= (($backend_page == $menu->VBACKEND)? 'class="active"':'');
+                                $print .= ">";
+                                    $print .= "<a href='".(($backend_page == $menu->VBACKEND)? '#':$base_url.$menu->VPATH)."'>";
+                                        $print .= "<i class='".$menu->VICON."'></i> <span>".$menu->VDESC."</span>";
+                                    $print .= "</a>";
+                                $print .= "</li>";
+                            }
+                            echo $print;
+                        ?>
+                        <!--
                         <li <?php echo (($backend_page == 'homepage.php')? 'class="active"':'') ?>><a href="<?php echo (($backend_page == 'homepage.php')? '#':$base_url.'index.php/backend/home') ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
                         <li <?php echo (($backend_page == 'paket_soal.php')? 'class="active"':'') ?>><a href="<?php echo (($backend_page == 'paket_soal.php')? '#':$base_url.'index.php/backend/paket_soal') ?>"><i class="fa fa-book"></i> <span>Paket Soal</span></a></li>
+                        -->
+                        
                         <!--
                         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                         <li class="treeview">

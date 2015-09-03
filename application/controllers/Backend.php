@@ -15,6 +15,7 @@ class Backend extends My_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('gen_model', 'gm');
+        $this->load->model('paket', 'pk');
         $this->data['company'] = "BelajarUjian.com";
         $this->email_to = "leo.nagaputra@gmail.com";
     }
@@ -174,17 +175,37 @@ class Backend extends My_Controller {
     
     function home() {
         //cek login
-        $this->_cek_user_login();
+        $this->_cek_user_login();        
+        //cek user akses
+        //$this->cek_hak_akses($this->session->userdata('ID'), "index.php/backend/home");
+        //exit;
+        
         $this->data['nama'] = $this->session->userdata('VNAMA');
-        $this->data['backend_page'] = 'homepage.php';
+        $this->data['backend_page'] = 'homepage.php';     
+        $this->data['menus'] = $this->get_user_menu($this->session->userdata('ID'));
+        //print_r($this->data['menus']);exit;
+        
+        //get_user_class 
+        $datas = NULL;
+        $datas = $this->pk->get_user_paket($this->session->userdata('VEMAIL')); 
+        $this->data['classes'] = $datas;        
+        
         $this->load->view('home', $this->data);
     }
     
     function paket_soal(){
         //cek login
         $this->_cek_user_login();
+        //cek user akses
+        $this->cek_hak_akses($this->session->userdata('ID'), "index.php/backend/paket_soal");
         $this->data['nama'] = $this->session->userdata('VNAMA');
-        $this->data['backend_page'] = 'paket_soal.php';
+        $this->data['backend_page'] = 'paket_soal.php';   
+        $this->data['menus'] = $this->get_user_menu($this->session->userdata('ID'));
+        
+        $datas = NULL;
+        $datas = $this->pk->get_all_paket(); 
+        //print_r($datas);exit;
+        $this->data['classes'] = $datas;
         $this->load->view('home', $this->data);
     }
 

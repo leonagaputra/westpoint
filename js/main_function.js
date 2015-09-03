@@ -228,3 +228,22 @@ function update_information(obj) {
     });
 }
 
+function paket_dialog(i){
+    //alert(i);;
+    var title = $("#paket_title_"+i).text();
+    var titlesh = $("#paket_titlesh_"+i).text();
+    var color_class = $("#paket_class_"+i).attr('class');
+    var desc = $("#paket_desc_"+i).text();
+    console.log(title);
+    console.log(titlesh);
+    console.log(color_class);
+    $("#modal_title").text(title);
+    $("#modal_title2").text(title);
+    $("#modal_titlesh").text(titlesh);
+    $("#modal_class").removeClass("small-box");
+    $("#modal_class").removeClass("bg-light-blue");
+    $("#modal_class").addClass(color_class);
+    $("#modal_desc").text(desc);
+    //show modals
+    $("#detail_modal").modal('show');
+}
