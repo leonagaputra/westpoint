@@ -13,6 +13,8 @@ class My_Controller extends CI_Controller {
         $this->data['base_url'] = $this->config->item('base_url');
         $this->data['version'] = "0.1";
         $this->load->model('hak_akses', 'ha');
+        $this->load->model('gen_model', 'gm');
+        $this->load->model('paket', 'pk');
     }
 
     function index() {
@@ -125,6 +127,12 @@ class My_Controller extends CI_Controller {
         }
         //print_r($akses);exit;
         //return $akses;
+    }
+    
+    protected function cek_user_soal($user_id, $soal_id){
+        if(!$this->pk->cek_user_soal($user_id, $soal_id)){
+            header('location:' . $this->data['base_url'] . "index.php/backend/home");
+        }
     }
 
 }

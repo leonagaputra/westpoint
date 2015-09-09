@@ -97,7 +97,7 @@ class Main extends My_Controller {
 
     private function _cek_user_login() {
         //echo "test". $this->session->userdata('username')." lalala";exit;
-        if ($this->session->userdata('VEMAIL')) {
+        if ($this->session->userdata('VNAMA')) {
             //echo "test";exit;            
             header('location:' . $this->data['base_url'] . "index.php/backend/home");
         }

@@ -228,22 +228,48 @@ function update_information(obj) {
     });
 }
 
-function paket_dialog(i){
+function paket_dialog(i, soal_id){
     //alert(i);;
     var title = $("#paket_title_"+i).text();
     var titlesh = $("#paket_titlesh_"+i).text();
     var color_class = $("#paket_class_"+i).attr('class');
     var desc = $("#paket_desc_"+i).text();
-    console.log(title);
-    console.log(titlesh);
-    console.log(color_class);
+    //console.log(title);
+    //console.log(titlesh);
+    //console.log(color_class);
     $("#modal_title").text(title);
     $("#modal_title2").text(title);
     $("#modal_titlesh").text(titlesh);
-    $("#modal_class").removeClass("small-box");
-    $("#modal_class").removeClass("bg-light-blue");
+    $("#modal_class").attr("class", "");
     $("#modal_class").addClass(color_class);
     $("#modal_desc").text(desc);
+    
+    if(soal_id == 0){
+        $("#btn-latihan,#btn-quis,#btn-ujian").hide();
+    } else {
+        //isi href dari masing2 button
+        $("#btn-latihan").attr("href", main.base_url + "index.php/backend/latihan/" + soal_id);
+        $("#btn-quis").attr("href", main.base_url + "index.php/backend/quis/" + soal_id);
+        $("#btn-ujian").attr("href", main.base_url + "index.php/backend/ujian/" + soal_id);
+        $("#btn-latihan,#btn-quis,#btn-ujian").show();
+    }
+    
     //show modals
     $("#detail_modal").modal('show');
+}
+
+function cek_jawaban_latihan(obj, id, jawab){
+    var kunci_jawaban = $("#divAnswer_" + id).find('.jq-hdnakqb').text();
+    
+    if(kunci_jawaban.toUpperCase() == jawab.toUpperCase()){
+        //benar
+        $('#divAnswer_' + id).show('slow');
+        $(this).css("color","green");
+        $("#cek_" + jawab + "_" + id).remove();
+        $("#opsi_" + jawab + "_" + id).append('<i id="cek_' + jawab + '_' + id +'" class="fa fa-check" style="color:green;"></i>');
+    } else {
+        //salah
+        //$(this).css("opacity","0.2");
+        $("#opsi_" + jawab + "_" + id).css("opacity", "0.2");
+    }    
 }

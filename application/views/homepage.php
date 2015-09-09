@@ -44,7 +44,7 @@
                                     $print .= '<i class="ion ion-ios-people"></i>';
                                 $print .= '</div>';
                                 //$print .= '<a href="#" data-toggle="modal" data-target="#detail_modal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>';
-                                $print .= '<a href="#" class="small-box-footer" onclick="paket_dialog(\''.$class->ID.'\')">More info <i class="fa fa-arrow-circle-right"></i></a>';
+                                $print .= '<a href="#" class="small-box-footer" onclick="paket_dialog(\''.$class->ID.'\', \''.$class->SOAL_ID.'\')">More info <i class="fa fa-arrow-circle-right"></i></a>';
                             $print .= '</div>';
                         $print .= '</div>';
                         if($row && !$start){
@@ -89,9 +89,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-default">Latihan</button>
-                    <button type="button" class="btn btn-default">Quis</button>
-                    <button type="button" class="btn btn-primary">Ujian</button>
+                    <a href="#" type="button" id="btn-latihan" class="btn btn-default">Latihan</a>
+                    <a href="#" type="button" id="btn-quis" class="btn btn-default">Quis</a>
+                    <a href="#" type="button" id="btn-ujian" class="btn btn-primary">Ujian</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
