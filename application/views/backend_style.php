@@ -22,7 +22,7 @@
         color: #269bc6;
     }
 
-    .pilgandes{
+    .pilgandes, .rad_but{
         padding: 10px;
     }
 
@@ -43,5 +43,9 @@
     
     .div-spacer {
         padding: 3px;
+    }
+    
+    #form_soal td{
+        padding: 5px;
     }
 </style>

@@ -89,9 +89,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <a href="#" type="button" id="btn-latihan" class="btn btn-default">Latihan</a>
-                    <a href="#" type="button" id="btn-quis" class="btn btn-default">Quis</a>
-                    <a href="#" type="button" id="btn-ujian" class="btn btn-primary">Ujian</a>
+                    <a href="#" type="button" id="btn-latihan" data-toggle="tooltip" title="Soal beserta jawaban" class="btn btn-default">Latihan</a>
+                    <a href="#" type="button" id="btn-quis" data-toggle="tooltip" title="Latihan soal tanpa menyimpan skor" class="btn btn-default">Quis</a>
+                    <a href="#" type="button" id="btn-ujian" data-toggle="tooltip" title="Uji belajarmu" class="btn btn-primary">Ujian</a>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

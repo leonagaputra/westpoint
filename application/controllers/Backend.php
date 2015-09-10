@@ -16,6 +16,7 @@ class Backend extends My_Controller {
         parent::__construct();
         $this->load->model('gen_model', 'gm');
         $this->load->model('paket', 'pk');
+        $this->load->model('question', 'qs');
         $this->data['company'] = "BelajarUjian.com";
         $this->email_to = "leo.nagaputra@gmail.com";
     }
@@ -219,14 +220,94 @@ class Backend extends My_Controller {
 
         $this->data['backend_page'] = 'paket_soal.php';
 
-
         $datas = NULL;
         $datas = $this->pk->get_all_paket();
         //print_r($datas);exit;
         $this->data['classes'] = $datas;
         $this->load->view('home', $this->data);
     }
+    
+    function quis_summary(){
+        //print_r($_POST);exit;
+        //cek login
+        $this->_cek_user_login();
+        $this->_get_backend_menu();
+        
+        $questions_id = $this->get_input("questions_id");
+        $questions_id = explode(",", $questions_id);
+        $jml_question = $this->get_input("jumlah_soal");
+        $answer = 0;
+        $question_id = 0;
+        $benar = 0;
+        //print_r($questions_id);exit;
+        for($i = 0; $i < count($questions_id); $i++){
+            $answer = $this->get_input("soal_".($i+1));
+            $question_id = $questions_id[$i];
+            //echo "q=".$question_id." an=". $answer."<br/>";
+            if($this->_cek_answer($question_id, $answer)){
+                $benar++;
+            }
+            //echo $benar."<br/>";
+        }
+        
+        $this->data['skor'] = round(100*$benar/$jml_question);
+        //echo $this->data['skor'];exit;
+        $this->data['backend_page'] = 'form_soal/quis_result.php';
+        $this->load->view('home', $this->data);
+        //echo "benar: ". $benar;exit;
+    }
+    
+    function _cek_answer($question_id, $answer){
+        $return = FALSE;        
+        //if($jawab = $this->gm->get("questions", array("ID"=>$question_id,"VJAWAB"=>$answer), TRUE, TRUE)){
+        if($jawab = $this->qs->cek_answer($question_id, $answer)){
+            if($jawab->CNT != 0)
+                $return = TRUE;
+        }        
+        return $return;
+    }
+    
+    function cek_answer(){
+        if($this->_cek_answer(1, "A"))echo "TRUE";
+        else echo "FALSE";
+    }
+    
+    /**
+     * Menampilkan soal quis, tidak menyimpan skor ke history
+     * @param type $soal_id
+     */
+    function quis($soal_id){
+        //cek login
+        $this->_cek_user_login();
 
+        //cek user soal
+        $this->cek_user_soal($this->session->userdata('ID'), $soal_id);
+        $this->_get_backend_menu();
+        
+        //get detail soal
+        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);            
+        
+        //get detail questions                
+        $questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE);                       
+        //random x jumlah soal dari seluruh soal yang ada             
+        $random = $this->_randomize_question($questions);
+        $this->data['questions'] = $random['value'];
+        $this->data['questions_id'] = $random['index'];
+        $this->data['jumlah_soal'] = count($random['value']);
+        //echo count($random['value']);exit;
+        //print_r($random);exit;
+        //print_r($this->data['questions']);exit;
+        
+        $this->data['backend_page'] = 'form_soal/quis.php';
+        $this->load->view('home', $this->data);
+        
+        
+    }
+
+    /**
+     * Menampilkan latihan soal beserta jawabannya
+     * @param type $soal_id
+     */
     function latihan($soal_id) {
         //cek login
         $this->_cek_user_login();
@@ -236,25 +317,37 @@ class Backend extends My_Controller {
         $this->_get_backend_menu();
         
         //get detail soal
-        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);
-        //print_r($this->data['soal_desc']);exit;
+        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);        
         
-        //get detail questions        
-        //random x jumlah soal dari seluruh soal yang ada
-        $questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE);                
-        $jml_soal = 60;
-        $rand_questions = array_rand($questions,$jml_soal);
-        $use_questions = array();
-        for($i = 0; $i < count($rand_questions); $i++){
-            array_push($use_questions, $questions[$rand_questions[$i]]);
-        }
-        //print_r($use_questions);exit;        
-        
-        $this->data['questions'] = $use_questions;
+        //get detail questions                
+        $questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE);                       
+        //random x jumlah soal dari seluruh soal yang ada        
+        $random = $this->_randomize_question($questions);
+        $this->data['questions'] = $random['value'];
         //print_r($this->data['questions']);exit;
         
         $this->data['backend_page'] = 'form_soal/latihan.php';
         $this->load->view('home', $this->data);
+    }
+    
+    function _randomize_question($questions){
+        $return = array(
+            'index' => array(),
+            'value' => array()
+        );
+        $jml_soal = 60;
+        $rand_questions = array_rand($questions,$jml_soal);
+        $rand_questions1 = array();
+        
+        $use_questions = array();
+        for($i = 0; $i < count($rand_questions); $i++){
+            array_push($use_questions, $questions[$rand_questions[$i]]);
+            $rand_questions1[$i] = $rand_questions[$i] + 1;
+        }
+        $return['index'] = implode(",", $rand_questions1);
+        $return['value'] = $use_questions;
+        //return $use_questions;
+        return $return;
     }
 
     function upload_soal2() {

@@ -89,7 +89,7 @@ class Paket extends CI_Model {
      */
     public function cek_soal($modul_id){
         $this->db->select("s.ID");
-        $this->db->from("MODUL m");            
+        $this->db->from("modul m");            
             $this->db->join('soal s', 's.MODUL_ID = m.ID');
         $this->db->where('m.ID', $modul_id);
         if($query = $this->db->get())

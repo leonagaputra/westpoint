@@ -273,3 +273,17 @@ function cek_jawaban_latihan(obj, id, jawab){
         $("#opsi_" + jawab + "_" + id).css("opacity", "0.2");
     }    
 }
+
+function submit_quis(){
+    var nilai;
+    var jumlah_soal = $('input[name=jumlah_soal]').val();
+    var jumlah_empty = 0;
+    for(var i=1; i<=jumlah_soal; i++){
+        nilai = $('input:radio[name=soal_'+i+']:checked').val();
+        if (typeof nilai === "undefined")jumlah_empty++;
+    }        
+    var yakin = confirm("jumlah soal yang belum terjawab : " + jumlah_empty+ "\nApakah Anda yakin tetap lanjut?");
+    if(yakin){
+        $("#form_quis").submit();
+    }
+}
