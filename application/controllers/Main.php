@@ -43,6 +43,7 @@ class Main extends My_Controller {
     }
 
     private function _under_development() {
+        $this->_cek_user_login();
         $this->load->view('development', $this->data);
     }
 
@@ -161,14 +162,16 @@ class Main extends My_Controller {
         if ($result->success == 1) {
             //CAPTCHA sukses
             //registrasi
+            $dcrea = date("Y-m-d H:i:s");
+            $vcrea = "SYSTEM";
             $data = array(
                 "VNAMA" => $this->security($this->input->post('nama', TRUE)),
                 "VEMAIL" => $this->security($this->input->post('email', TRUE)),
                 "VPASSWORD" => $this->security($this->input->post('password', TRUE)),
                 "VPERUSAHAAN" => $this->security($this->input->post('perusahaan', TRUE)),
                 "VHPNUM" => $this->security($this->input->post('hape', TRUE)),
-                "VCREA" => "SYSTEM",
-                "DCREA" => date("Y-m-d H:i:s")
+                "VCREA" => $vcrea,
+                "DCREA" => $dcrea
             );
             //print_r($data);
             $where = array(
@@ -176,9 +179,29 @@ class Main extends My_Controller {
             );
             $cnt = $this->gm->get("users", $where, TRUE, TRUE);
             if ($cnt->cnt == 0) {
+                //insert new user
                 $id = $this->gm->insert("users", $data);
                 if ($id) {
                     $this->data['msg'] = "Proses Registrasi Sukses";
+                    //insert user paket
+                    $userpaket = array(
+                        'PAKET_ID' => 4, //paket demo
+                        'USER_ID' => $id,
+                        'DSTART' => $dcrea,
+                        'DEND' => "2100-12-31 23:59:00",
+                        'VCREA' => $vcrea,
+                        'DCREA' => $dcrea
+                    );
+                    $this->gm->insert("userpaket", $userpaket);
+                    
+                    //insert user role
+                    $userrole = array(
+                        'USER_ID' => $id,
+                        'ROLE_ID' => 2, //role student
+                        'VCREA' => $vcrea,
+                        'DCREA' => $dcrea
+                    );
+                    $this->gm->insert("userrole", $userrole);
                     $this->_success();
                 } else {
                     $this->data['error_msg'] = "Proses Penyimpanan Error";

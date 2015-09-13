@@ -58,3 +58,10 @@
     <!-- Your Page Content Here -->
 
 </section>
+<script type="text/javascript">
+    window.onload = function () {
+        var timelength = 60 * 60,
+            display = document.querySelector('title');
+        startTimer(timelength, display);
+    };
+</script>

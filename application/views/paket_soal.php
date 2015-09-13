@@ -12,6 +12,19 @@
 
 <!-- Main content -->
 <section class="content">
+    <?php if(isset($beli_paket)  && !$beli_paket["error"]) { ?>
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>	<i class="icon fa fa-check"></i> Sukses!</h4>
+            Paket telah ditambahkan pada library Anda.  Kunjungi <a href="<?php echo $base_url ?>index.php/backend/home">beranda</a> untuk melihat paket Anda.
+        </div>
+    <?php } else if (isset($beli_paket)  && $beli_paket["error"]) { ?>    
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4>	<i class="icon fa fa-check"></i> Error!</h4>
+            <?php echo $beli_paket["err_message"]; ?>  Kunjungi <a href="<?php echo $base_url ?>index.php/backend/home">beranda</a> untuk melihat paket Anda.
+        </div>
+    <?php } ?>
     <div class="box box-default color-palette-box">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-tag"></i> Paket Soal</h3>
@@ -127,9 +140,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-default">Test</button>
-                    <button type="button" class="btn btn-primary">Beli Paket</button>
+                    <form id="form_paket" method="post" action="<?php echo $base_url;?>index.php/backend/beli_paket">
+                        <input type="hidden" name="paket_id" id="paket_id" value="0"/>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                    
+                        <input type="submit" class="btn btn-primary" value="Beli Paket" />
+                    </form>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

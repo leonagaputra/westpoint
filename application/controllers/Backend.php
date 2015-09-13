@@ -17,6 +17,7 @@ class Backend extends My_Controller {
         $this->load->model('gen_model', 'gm');
         $this->load->model('paket', 'pk');
         $this->load->model('question', 'qs');
+        $this->load->model('hak_akses', 'ha');
         $this->data['company'] = "BelajarUjian.com";
         $this->email_to = "leo.nagaputra@gmail.com";
     }
@@ -161,7 +162,8 @@ class Backend extends My_Controller {
             delete_cookie($var_cookie);
         }
 
-        if ($result = $this->gm->get("users", $data, TRUE)) {
+        //if ($result = $this->gm->get("users", $data, TRUE)) {
+        if ($result = $this->ha->do_login($data['VEMAIL'], $data['VPASSWORD'])) {
             //print_r($result);exit;
             $this->data['username'] = strtoupper($data['VEMAIL']);
             $this->session->set_userdata((array) $result);
@@ -172,6 +174,11 @@ class Backend extends My_Controller {
         $this->index();
     }
 
+    function go_to_home(){
+        header('location:' . $this->data['base_url'] . "index.php/backend/home");
+        //echo "test";
+    }
+    
     function home() {
         //cek login
         $this->_cek_user_login();
@@ -205,6 +212,8 @@ class Backend extends My_Controller {
             }
         }
         //print_r ($datas);exit;
+        
+        //echo $this->data['join'];exit;
         $this->data['classes'] = $datas;
 
         $this->load->view('home', $this->data);
@@ -219,6 +228,9 @@ class Backend extends My_Controller {
         $this->_get_backend_menu();
 
         $this->data['backend_page'] = 'paket_soal.php';
+        
+        // yang muncul tombol Beli Paket di paket soal hanya yang paket belum terbeli
+        // dianalisa aja dulu, munculkan error msg aja kalau paket sudah terbeli
 
         $datas = NULL;
         $datas = $this->pk->get_all_paket();
@@ -227,12 +239,21 @@ class Backend extends My_Controller {
         $this->load->view('home', $this->data);
     }
     
+    /**
+     * Summary dari quis
+     */
     function quis_summary(){
         //print_r($_POST);exit;
         //cek login
         $this->_cek_user_login();
         $this->_get_backend_menu();
         
+        //if post empty
+        if(empty($_POST)){
+            $this->go_to_home();
+        } 
+        
+        $soal_id = $this->get_input("soal_id");
         $questions_id = $this->get_input("questions_id");
         $questions_id = explode(",", $questions_id);
         $jml_question = $this->get_input("jumlah_soal");
@@ -250,9 +271,76 @@ class Backend extends My_Controller {
             //echo $benar."<br/>";
         }
         
-        $this->data['skor'] = round(100*$benar/$jml_question);
+        $skor = round(100*$benar/$jml_question);
+        $skor_lulus = 60;
+        $lulus = FALSE;
+        if($skor >= $skor_lulus){
+            $lulus = TRUE;
+        }
+        
+        $this->data['summary'] = array(
+            'benar' => $benar,
+            'skor' => $skor,
+            'lulus' => $lulus,
+            'soal_id' => $soal_id
+        );
+        $this->data['skor'] = $skor;
         //echo $this->data['skor'];exit;
         $this->data['backend_page'] = 'form_soal/quis_result.php';
+        $this->load->view('home', $this->data);
+        //echo "benar: ". $benar;exit;
+    }
+    
+    /**
+     * Ujian Summary
+     * Simpan soal2 dan jawaban2 user
+     * Simpan nilai user
+     */
+    function ujian_summary(){
+        //print_r($_POST);exit;
+        //cek login
+        $this->_cek_user_login();
+        $this->_get_backend_menu();
+        
+        //if post empty
+        if(empty($_POST)){
+            $this->go_to_home();
+        } 
+        
+        $soal_id = $this->get_input("soal_id");
+        $questions_id = $this->get_input("questions_id");
+        $questions_id = explode(",", $questions_id);
+        $jml_question = $this->get_input("jumlah_soal");
+        $answer = 0;
+        $question_id = 0;
+        $benar = 0;
+        //print_r($questions_id);exit;
+        for($i = 0; $i < count($questions_id); $i++){
+            $answer = $this->get_input("soal_".($i+1));
+            $question_id = $questions_id[$i];
+            //echo "q=".$question_id." an=". $answer."<br/>";
+            if($this->_cek_answer($question_id, $answer)){
+                $benar++;
+            }
+            //echo $benar."<br/>";
+        }
+        
+        $skor = round(100*$benar/$jml_question);
+        $skor_lulus = 60;
+        $lulus = FALSE;
+        if($skor >= $skor_lulus){
+            $lulus = TRUE;
+        }
+        
+        $this->data['summary'] = array(
+            'benar' => $benar,
+            'skor' => $skor,
+            'lulus' => $lulus,
+            'soal_id' => $soal_id
+        );
+        $this->data['skor'] = $skor;
+        //echo $this->data['skor'];exit;
+        $this->data['backend_page'] = 'form_soal/ujian_result.php';
         $this->load->view('home', $this->data);
         //echo "benar: ". $benar;exit;
     }
@@ -286,11 +374,14 @@ class Backend extends My_Controller {
         
         //get detail soal
         $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);            
-        
+                      
+        $this->data['questions'] = array();
         //get detail questions                
-        $questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE);                       
-        //random x jumlah soal dari seluruh soal yang ada             
-        $random = $this->_randomize_question($questions);
+        if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
+            $random = $this->_randomize_question($questions);
+            $this->data['questions'] = $random['value'];
+        }
+        
         $this->data['questions'] = $random['value'];
         $this->data['questions_id'] = $random['index'];
         $this->data['jumlah_soal'] = count($random['value']);
@@ -305,6 +396,44 @@ class Backend extends My_Controller {
     }
 
     /**
+     * Menampilkan soal ujian, hasil disimpan 
+     * @param type $soal_id
+     */
+    function ujian($soal_id){
+        //cek login
+        $this->_cek_user_login();
+
+        //cek user soal
+        $this->cek_user_soal($this->session->userdata('ID'), $soal_id);
+        $this->_get_backend_menu();
+        
+        //get detail soal
+        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE); 
+        
+        //print_r($this->data['soal_desc']);exit;
+                      
+        $this->data['questions'] = array();
+        //get detail questions                
+        if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
+            $random = $this->_randomize_question($questions);
+            $this->data['questions'] = $random['value'];
+            //print_r($this->data['questions']);exit;
+        }
+        
+        $this->data['questions'] = $random['value'];
+        $this->data['questions_id'] = $random['index'];
+        $this->data['jumlah_soal'] = count($random['value']);
+        //echo count($random['value']);exit;
+        //print_r($random);exit;
+        //print_r($this->data['questions']);exit;
+        
+        $this->data['backend_page'] = 'form_soal/ujian.php';
+        $this->load->view('home', $this->data);
+        
+        
+    }
+    
+    /**
      * Menampilkan latihan soal beserta jawabannya
      * @param type $soal_id
      */
@@ -318,12 +447,12 @@ class Backend extends My_Controller {
         
         //get detail soal
         $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);        
-        
+        $this->data['questions'] = array();
         //get detail questions                
-        $questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE);                       
-        //random x jumlah soal dari seluruh soal yang ada        
-        $random = $this->_randomize_question($questions);
-        $this->data['questions'] = $random['value'];
+        if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
+            $random = $this->_randomize_question($questions);
+            $this->data['questions'] = $random['value'];
+        }                                      
         //print_r($this->data['questions']);exit;
         
         $this->data['backend_page'] = 'form_soal/latihan.php';
@@ -385,8 +514,11 @@ class Backend extends My_Controller {
 //            'menus' => $this->get_user_menu($this->session->userdata('ID'))
 //        );
 //        return $return;
+        $this->data['join'] = date("M. Y", strtotime($this->session->userdata('DCREA')));
+        //echo $this->data['join'];exit;
         $this->data['nama'] = $this->session->userdata('VNAMA');
         $this->data['menus'] = $this->get_user_menu($this->session->userdata('ID'));
+        //print_r($this->data['menus']);exit;
     }
 
     private function _read_csv($file) {
@@ -477,6 +609,57 @@ class Backend extends My_Controller {
         //print_r($return);
         //exit;
         return $return;
+    }
+    
+    /**
+     * function untuk proses pembelian paket
+     */
+    function beli_paket(){
+        //print_r($_POST);exit;
+        //cek login
+        $this->_cek_user_login();
+        $this->_get_backend_menu();
+        
+        //if post empty
+        if(empty($_POST)){
+            header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
+        } 
+        $paket_id = $this->get_input("paket_id");
+        if($paket_id == 0)$this->go_to_home();
+        
+        //insert userpaket
+        //$this->session->userdata('ID')
+        $dcrea = date("Y-m-d H:i:s");;
+        $data = array(
+            "PAKET_ID" => $paket_id,
+            "USER_ID" => $this->session->userdata('ID'),
+            "VCREA" => "SYSTEM",
+            "DCREA" => $dcrea,
+            "DSTART" => $dcrea,
+            "DEND" => "2100-12-31 23:59:00"
+        );
+        $this->data['beli_paket'] = array(
+            "error" => FALSE,
+            "err_message" => ""
+        );
+        //cek apakah user telah memiliki paket tersebut
+        if($cek = $this->pk->cek_user_paket($this->session->userdata('ID'),$paket_id)){
+            //print_r($cek);exit;
+            if($cek->cnt == 1){
+                //tampilkan error jika ada
+                $this->data['beli_paket']["error"] = TRUE;
+                $this->data['beli_paket']["err_message"] = "Paket ini telah Anda miliki.";
+            } else {
+                //jika tidak ada, insert
+                $this->gm->insert("userpaket", $data);
+            }
+        }
+        
+        
+        //$this->data['beli_paket'] = $paket_id;
+        
+        //tampilkan ke paket soal
+        $this->paket_soal();
     }
 
 }

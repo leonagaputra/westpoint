@@ -10,6 +10,20 @@ class Hak_akses extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
+    
+    public function do_login($email, $password){
+        $this->db->from("users");
+        $this->db->where("UPPER(VEMAIL)", strtoupper($email));
+        $this->db->where("VPASSWORD", $password);
+        if($query = $this->db->get())
+        {
+            if($query->num_rows() > 0)
+            {                
+                return $query->row();
+            }
+        }
+        return FALSE;
+    }
 
     public function get_user_menu($user_id) {
         $this->db->select("m.ID, m.VDESC, m.VPATH, m.VBACKEND, m.VICON");

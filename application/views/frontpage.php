@@ -132,7 +132,7 @@
                             </div>
                         </div>
                         <div>
-                            <p>Basic Finance berisi soal-soal latihan beserta ujian soal untuk level dasar.  Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 10.000 / tahun.</p>                            
+                            <p>Basic Finance berisi soal-soal latihan beserta ujian soal untuk level dasar. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 10.000.</p>                            
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     </div>
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div>
-                            <p>Managerial Finance berisi soal-soal latihan beserta ujian soal untuk level managerial.  Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 30.000 / tahun.</p>                            
+                            <p>Managerial Finance berisi soal-soal latihan beserta ujian soal untuk level managerial. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 30.000.</p>                            
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     </div>
@@ -200,7 +200,7 @@
                             </div>
                         </div>
                         <div>
-                            <p>Collection Finance berisi soal-soal latihan beserta ujian soal untuk level advanced.  Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 50.000 / tahun.</p>                            
+                            <p>Collection Finance berisi soal-soal latihan beserta ujian soal untuk level advanced. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 50.000.</p>                            
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     </div>

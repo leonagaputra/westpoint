@@ -2,7 +2,8 @@ var main = {
     base_url : null,
     base_app : null,
     overlay : null,
-    temp : null
+    temp : null,
+    interval : null
 }
 
 function show_message(str, title, width)
@@ -244,15 +245,21 @@ function paket_dialog(i, soal_id){
     $("#modal_class").addClass(color_class);
     $("#modal_desc").text(desc);
     
-    if(soal_id == 0){
-        $("#btn-latihan,#btn-quis,#btn-ujian").hide();
-    } else {
-        //isi href dari masing2 button
-        $("#btn-latihan").attr("href", main.base_url + "index.php/backend/latihan/" + soal_id);
-        $("#btn-quis").attr("href", main.base_url + "index.php/backend/quis/" + soal_id);
-        $("#btn-ujian").attr("href", main.base_url + "index.php/backend/ujian/" + soal_id);
-        $("#btn-latihan,#btn-quis,#btn-ujian").show();
+    if (typeof soal_id === "undefined"){
+        $("#paket_id").val(i);
     }
+    else{
+        if(soal_id == 0){
+            $("#btn-latihan,#btn-quis,#btn-ujian").hide();
+        } else {
+            //isi href dari masing2 button
+            $("#btn-latihan").attr("href", main.base_url + "index.php/backend/latihan/" + soal_id);
+            $("#btn-quis").attr("href", main.base_url + "index.php/backend/quis/" + soal_id);
+            $("#btn-ujian").attr("href", main.base_url + "index.php/backend/ujian/" + soal_id);
+            $("#btn-latihan,#btn-quis,#btn-ujian").show();
+        }
+    }
+    
     
     //show modals
     $("#detail_modal").modal('show');
@@ -286,4 +293,47 @@ function submit_quis(){
     if(yakin){
         $("#form_quis").submit();
     }
+}
+
+function startTimer(duration, display) {
+    var start = Date.now(),
+        diff,
+        minutes,
+        seconds;
+    function timer() {
+        // get the number of seconds that have elapsed since 
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
+        //console.log(diff);
+        // does the same job as parseInt truncates the float
+        minutes = (diff / 60) | 0;
+        seconds = (diff % 60) | 0;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds; 
+
+        if (diff <= 0) {
+            // add one second so that the count down starts at the full duration
+            // example 05:00 not 04:59
+            //start = Date.now() + 1000;            
+            clearInterval(main.interval);
+            $("#form_quis").submit();
+        }
+    };
+    // we don't want to wait a full second before the timer starts
+    
+    timer();
+    main.interval = setInterval(timer, 1000);        
+       
+}
+
+function startUjian(){
+    var timeLength = $("#time_length").val();//data yg kita punya dalam satuan menit
+    //alert(timeLength);
+    var ujianTime = 60 * timeLength,//ubah dalam satuan second
+    //var ujianTime = 10,
+            display = document.querySelector('title');
+        startTimer(ujianTime, display);
 }

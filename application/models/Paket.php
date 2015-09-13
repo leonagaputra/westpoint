@@ -101,5 +101,20 @@ class Paket extends CI_Model {
         }
         return FALSE;
     }
+    
+    public function cek_user_paket($user_id, $paket_id){
+        $this->db->select("count(USER_ID) as cnt");
+        $this->db->from("userpaket");            
+        $this->db->where('USER_ID', $user_id);
+        $this->db->where('PAKET_ID', $paket_id);
+        if($query = $this->db->get())
+        {
+            if($query->num_rows() > 0)
+            {                
+                return $query->row();
+            }
+        }
+        return FALSE;
+    }
 
 }

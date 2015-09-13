@@ -46,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <header class="main-header">
 
                 <!-- Logo -->
-                <a href="index2.html" class="logo">
+                <a href="<?php echo $base_url ?>" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>BR</b>U</span>
                     <!-- logo for regular state and mobile devices -->
@@ -166,11 +166,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <li class="user-header">
                                         <img src="<?php echo $base_url; ?>img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                         <p>
-                                            <?php echo $nama;?> - Web Developer
-                                            <small>Member since Nov. 2012</small>
+                                            <?php echo $nama;?> <!--- Web Developer-->
+                                            <small>Member since <?php echo $join; ?></small>
                                         </p>
                                     </li>
                                     <!-- Menu Body -->
+                                    <!--
                                     <li class="user-body">
                                         <div class="col-xs-4 text-center">
                                             <a href="#">Followers</a>
@@ -182,11 +183,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <a href="#">Friends</a>
                                         </div>
                                     </li>
+                                    -->
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
+                                        <!--<div class="pull-left">
                                             <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>
+                                        </div>-->
                                         <div class="pull-right">
                                             <a href="<?php echo $base_url; ?>index.php/backend/logout" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
