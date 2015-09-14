@@ -25,8 +25,8 @@
                             <div style="" id="divStartTestInstruction">
                                 <div align="left">  
                                     <ul>
-                                    <li><p class="tp-p-instruction">Jumlah pertanyaan : <b>20</b>.</p></li>
-                                    <li><p class="tp-p-instruction">Waktu pengerjaan : <b>30</b> menit.</p></li>
+                                    <li><p class="tp-p-instruction">Jumlah pertanyaan : <b><?php echo $soal_desc->INUMQ; ?></b>.</p></li>
+                                    <li><p class="tp-p-instruction">Waktu pengerjaan : <b><?php echo $soal_desc->ITIME; ?></b> menit.</p></li>
                                     <li><p class="tp-p-instruction">Setiap pertanyaan benar bernilai 1, tidak ada nilai negatif (pengurangan nilai).</p></li>
                                     <li><p class="tp-p-instruction">Klik tombol 'Submit' di bagian paling bawah dari halaman ini untuk mengirimkan jawaban.</p></li>
                                     <li><p class="tp-p-instruction">Tes akan secara otomatis tersubmit apabila waktu telah habis.</p></li>

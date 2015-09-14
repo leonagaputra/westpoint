@@ -289,10 +289,15 @@ function submit_quis(){
         nilai = $('input:radio[name=soal_'+i+']:checked').val();
         if (typeof nilai === "undefined")jumlah_empty++;
     }        
-    var yakin = confirm("jumlah soal yang belum terjawab : " + jumlah_empty+ "\nApakah Anda yakin tetap lanjut?");
-    if(yakin){
+    if(jumlah_empty > 0){
+        var yakin = confirm("jumlah soal yang belum terjawab : " + jumlah_empty+ "\nApakah Anda yakin tetap lanjut?");
+        if(yakin){
+            $("#form_quis").submit();
+        }
+    } else {
         $("#form_quis").submit();
     }
+    
 }
 
 function startTimer(duration, display) {

@@ -224,6 +224,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     -->
                     <!-- search form (Optional) -->
+                    <!--
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
                             <input type="text" name="q" class="form-control" placeholder="Search...">
@@ -232,6 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </span>
                         </div>
                     </form>
+                    -->
                     <!-- /.search form -->
 
                     <!-- Sidebar Menu -->

@@ -315,17 +315,50 @@ class Backend extends My_Controller {
         $question_id = 0;
         $benar = 0;
         //print_r($questions_id);exit;
+        
+        //insert hdr answer
+        $vcrea= $this->session->userdata('VEMAIL');
+        $dcrea = date("Y-m-d H:i:s");
+        $insert = array(
+            "SOAL_ID" => $soal_id,
+            "USER_ID" => $this->session->userdata('ID'),
+            "ISKOR" => 0,
+            "VCREA" => $vcrea,
+            "DCREA" => $dcrea
+        );
+        $hdranswer_id = $this->gm->insert("hdranswer", $insert);
+        
+        $insert_detail = array(
+            "HDRANSWER_ID" => 0,
+            "QUESTION_ID" => 0,
+            "VJAWAB" => "0",
+            "VBENAR" =>"F",
+            "VCREA" => $vcrea,
+            "DCREA" => $dcrea
+        );
         for($i = 0; $i < count($questions_id); $i++){
             $answer = $this->get_input("soal_".($i+1));
             $question_id = $questions_id[$i];
             //echo "q=".$question_id." an=". $answer."<br/>";
+            $stat_benar = "F";
             if($this->_cek_answer($question_id, $answer)){
+                $stat_benar = "T";
                 $benar++;
             }
+            //insert detail answer
+            $insert_detail["HDRANSWER_ID"] = $hdranswer_id;
+            $insert_detail["QUESTION_ID"] = $question_id;
+            $insert_detail["VJAWAB"] = $answer;
+            $insert_detail["VBENAR"] = $stat_benar;
+            $this->gm->insert("dtlanswer", $insert_detail);
+            
             //echo $benar."<br/>";
         }
         
+        //update skor
         $skor = round(100*$benar/$jml_question);
+        $this->gm->update_data("hdranswer", array("ISKOR" => $skor), $hdranswer_id);
+        
         $skor_lulus = 60;
         $lulus = FALSE;
         if($skor >= $skor_lulus){
@@ -416,13 +449,13 @@ class Backend extends My_Controller {
         //get detail questions                
         if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
             $random = $this->_randomize_question($questions);
-            $this->data['questions'] = $random['value'];
-            //print_r($this->data['questions']);exit;
+            $this->data['questions'] = $random['value'];            
+            $this->data['questions_id'] = $random['index'];
+            $this->data['jumlah_soal'] = count($random['value']);
+            //print_r($questions);exit;
         }
         
-        $this->data['questions'] = $random['value'];
-        $this->data['questions_id'] = $random['index'];
-        $this->data['jumlah_soal'] = count($random['value']);
+        
         //echo count($random['value']);exit;
         //print_r($random);exit;
         //print_r($this->data['questions']);exit;

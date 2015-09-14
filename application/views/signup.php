@@ -104,7 +104,7 @@
         <!-- Modal -->
         <!-- Modal -->
         <?php
-            require_once 'frontpage_login.php';
+        require_once 'frontpage_login.php';
         ?>
 
         <!-- Header -->
@@ -113,7 +113,7 @@
                 <h1 style="color:#fff;text-align: center;">Daftar BelajarUjian</h1>
                 <div class="row">
                     <div class="well bs-component">
-                        <form class="form-horizontal" action="<?php echo $base_url?>index.php/main/join_belajar_ujian" method="POST">
+                        <form class="form-horizontal" action="<?php echo $base_url ?>index.php/main/join_belajar_ujian" method="POST">
                             <fieldset>
                                 <legend style="text-align:center;">Anda akan memulai dengan akun free trial</legend>
                                 <div class="form-group">
@@ -138,7 +138,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputHP">Nomor HP <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
-                                        <input name="hape" type="text" maxlength="100" placeholder="Nomor HP" id="inputPassword" class="form-control" required>                                        
+                                        <input name="hape" type="text" maxlength="100" placeholder="Nomor HP" id="inputHape" class="form-control" required>                                        
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -151,11 +151,11 @@
                                     <label class="col-lg-2 control-label" for="inputCaptcha">Captcha</label>
                                     <div class="col-lg-10">
                                         <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
-                                        <?php if($captcha_error){?>
+                                        <?php if ($captcha_error) { ?>
                                             <div class="text-danger">Pengenalan captcha gagal</div>
-                                        <?php }?>
+                                        <?php } ?>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-10 col-lg-offset-2">                      
@@ -242,10 +242,34 @@
 
         <!-- Contact Form JavaScript -->    
         <script src="<?php echo $base_url; ?>js/jqBootstrapValidation.js?v=<?php echo $version; ?>"></script>
-        
+
 
         <!-- Custom Theme JavaScript -->    
         <!--<script src="<?php echo $base_url; ?>js/freelancer.js?v=<?php echo $version; ?>"></script>-->
+        <script>
+            
+            $(document).ready(function () {
+                $("#inputHape").keydown(function (e) {
+                    // Allow: backspace, delete, tab, escape, enter and .
+                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                        // Allow: Ctrl+A
+                        (e.keyCode == 65 && e.ctrlKey === true) ||
+                        // Allow: Ctrl+C
+                        (e.keyCode == 67 && e.ctrlKey === true) ||
+                        // Allow: Ctrl+X
+                        (e.keyCode == 88 && e.ctrlKey === true) ||
+                        // Allow: home, end, left, right
+                        (e.keyCode >= 35 && e.keyCode <= 39)) {
+                            // let it happen, don't do anything
+                            return;
+                        }
+                        // Ensure that it is a number and stop the keypress
+                        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                            e.preventDefault();
+                        }
+                });
+            });
+        </script>
 
     </body>
 
