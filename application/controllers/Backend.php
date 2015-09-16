@@ -529,12 +529,21 @@ class Backend extends My_Controller {
         $this->data['error'] = FALSE;
         $this->data['error_msg'] = "";
         if (!empty($_FILES)) {
+            $name = explode(".", $_FILES["inputsoal"]["name"]);
+            //echo $name[count($name)-1];exit;
+            //print_r($_FILES);exit;
             $this->data['onupload'] = TRUE;
-            if ($_FILES["inputsoal"]["tmp_name"]) {
-                $read_csv = $this->_read_csv($_FILES["inputsoal"]["tmp_name"]);
-                $this->data['error'] = $read_csv['error'];
-                $this->data['error_msg'] = $read_csv['error_msg'];
-            }
+            if(strtolower($name[count($name)-1])!="csv"){
+                $this->data['error'] = TRUE;
+                $this->data['error_msg'] = "Format file yang dikirimkan salah";
+            } else {
+                if ($_FILES["inputsoal"]["tmp_name"]) {
+                    $read_csv = $this->_read_csv($_FILES["inputsoal"]["tmp_name"]);
+                    $this->data['error'] = $read_csv['error'];
+                    $this->data['error_msg'] = $read_csv['error_msg'];
+                }
+            }          
+            
         }
 
         $this->data['backend_page'] = 'admin/upload_soal.php';
@@ -693,6 +702,23 @@ class Backend extends My_Controller {
         
         //tampilkan ke paket soal
         $this->paket_soal();
+    }
+    
+    function paket($paket_id){
+        //cek login
+        $this->_cek_user_login();
+        $user_id = $this->session->userdata('ID');
+
+        //cek user paket        
+        $this->cek_user_paket($user_id, $paket_id);
+        $this->_get_backend_menu();
+        
+        $this->data['paket'] = $this->pk->get_paket($paket_id);        
+        $this->data['result_ujian'] =$this->qs->get_soal_by_user_paket($user_id, $paket_id);
+        //print_r($this->data['result_ujian']);exit;
+        
+        $this->data['backend_page'] = 'paket.php';
+        $this->load->view('home', $this->data);
     }
 
 }

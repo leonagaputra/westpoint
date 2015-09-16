@@ -10,6 +10,8 @@
       page. However, you can choose any other skin. Make sure you
       apply the skin class to the body tag so the changes take effect.
 -->
+<!-- DataTables -->
+<link rel="stylesheet" href="<?php echo $base_url; ?>plugins/datatables/dataTables.bootstrap.css?v=<?php echo $version; ?>">
 
 <link rel="stylesheet" href="<?php echo $base_url; ?>css/skins/skin-blue.min.css?v=<?php echo $version; ?>">
 

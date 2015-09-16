@@ -234,7 +234,7 @@ function paket_dialog(i, soal_id){
     var title = $("#paket_title_"+i).text();
     var titlesh = $("#paket_titlesh_"+i).text();
     var color_class = $("#paket_class_"+i).attr('class');
-    var desc = $("#paket_desc_"+i).text();
+    var desc = $("#paket_desc_"+i).html();
     //console.log(title);
     //console.log(titlesh);
     //console.log(color_class);
@@ -243,7 +243,7 @@ function paket_dialog(i, soal_id){
     $("#modal_titlesh").text(titlesh);
     $("#modal_class").attr("class", "");
     $("#modal_class").addClass(color_class);
-    $("#modal_desc").text(desc);
+    $("#modal_desc").html(desc);
     
     if (typeof soal_id === "undefined"){
         $("#paket_id").val(i);

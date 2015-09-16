@@ -116,5 +116,19 @@ class Paket extends CI_Model {
         }
         return FALSE;
     }
-
+    
+    public function get_paket($paket_id){     
+        $this->db->select("p.ID, p.VTITLE, p.VTITLESH, p.VDESC, k.VCOLOR");
+        $this->db->from("paket p");       
+            $this->db->join('kategori k', 'k.ID = p.KATEGORI_ID');
+        $this->db->where('p.ID', $paket_id);        
+        if($query = $this->db->get())
+        {
+            if($query->num_rows() > 0)
+            {                
+                return $query->row();
+            }
+        }
+        return FALSE;
+    }
 }

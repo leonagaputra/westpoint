@@ -438,7 +438,7 @@
                     <div class="row">
                         <div class="footer-col col-md-4">
                             <h3>Lokasi</h3>
-                            <p>3481 Melrose Place<br>Beverly Hills, CA 90210</p>
+                            <p>Apartemen Greenlake<br>Tower Northern Park Residences <br>Lt. GF No. B12. <br>Jl. Danau Sunter Selatan</p>
                         </div>
                         <div class="footer-col col-md-4">
                             <h3>Social Media</h3>

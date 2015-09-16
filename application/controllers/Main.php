@@ -294,6 +294,7 @@ class Main extends My_Controller {
                 'DCREA' => date("Y-m-d H:i:s")
             );
             $this->gm->insert("contactus", $data);
+            //SEND TO MY EMAIL
         }
         
     }

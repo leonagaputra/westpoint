@@ -38,7 +38,7 @@
                                 $print .= '<div class="inner">';
                                     $print .= '<h3 id="paket_titlesh_'.$class->ID.'">'.$class->VTITLESH.'</h3>';
                                     $print .= '<p id="paket_title_'.$class->ID.'">'.$class->VTITLE.'</p>';
-                                    $print .= '<div style="display:none;" id="paket_desc_'.$class->ID.'">'.$class->VDESC.'</div>';
+                                    $print .= '<div style="display:none;" id="paket_desc_'.$class->ID.'">'.$class->VDESC.' <a href="'.$base_url.'index.php/backend/paket/'.$class->ID.'">Selengkapnya...</a></div>';                                    
                                 $print .= '</div>';
                                 $print .= '<div class="icon">';
                                     $print .= '<i class="ion ion-ios-people"></i>';

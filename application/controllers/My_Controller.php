@@ -134,6 +134,14 @@ class My_Controller extends CI_Controller {
             header('location:' . $this->data['base_url'] . "index.php/backend/home");
         }
     }
+    
+    protected function cek_user_paket($user_id, $soal_id){
+        if($cek = $this->pk->cek_user_paket($user_id, $soal_id)){
+            if($cek->cnt != 1){
+                header('location:' . $this->data['base_url'] . "index.php/backend/home");
+            }                   
+        }
+    }
 
 }
 
