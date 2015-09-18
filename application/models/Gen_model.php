@@ -80,9 +80,15 @@ class Gen_model extends CI_Model{
         return $this->db->insert_id();
     }
     
-    function update_data($table, $data, $id){
-        $this->db->where("ID", $id);
+    function update_data($table, $data, $id, $where = NULL){
+        if($where){
+            $this->db->where($where);
+        }
+        else {
+            $this->db->where("ID", $id);        
+        }
         $this->db->update($table, $data);
     }
+        
 
 }

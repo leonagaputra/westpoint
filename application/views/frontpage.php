@@ -55,13 +55,18 @@
                 font-size: 1em;
                 border-right: none;
             }
+            
+            header .container {
+                padding-bottom: 100px;
+                padding-top: 150px;
+            }
         </style>
     </head>
 
     <body id="page-top" class="index">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header page-scroll">
@@ -433,6 +438,7 @@
 
         <!-- Footer -->
         <footer class="text-center">
+            <!--
             <div class="footer-above">
                 <div class="container">
                     <div class="row">
@@ -467,6 +473,7 @@
                     </div>
                 </div>
             </div>
+            -->
             <div class="footer-below">
                 <div class="container">
                     <div class="row">
@@ -477,6 +484,8 @@
                 </div>
             </div>
         </footer>
+        
+        
 
         <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
         <div class="scroll-top page-scroll visible-xs visible-sm">

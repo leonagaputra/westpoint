@@ -19,7 +19,6 @@ class Main extends My_Controller {
         $this->data['company'] = "BelajarUjian.com";
         $this->email_to = "leo.nagaputra@gmail.com";
         $this->this_cookie = 'belajarujian_remember';
-        
     }
 
     //put your code here
@@ -73,12 +72,12 @@ class Main extends My_Controller {
     public function login() {
         $this->load->view('login', $this->data);
     }
-    
+
     /**
      * frontpage
      * check
      */
-    private function _front_check(){
+    private function _front_check() {
         $this->_cek_user_login();
         $this->data['remember_cookie'] = $this->_get_cookie();
     }
@@ -91,8 +90,8 @@ class Main extends My_Controller {
         //echo $this->data['remember_cookie'];exit;
         $this->load->view('frontpage', $this->data);
     }
-    
-    private function _get_cookie(){
+
+    private function _get_cookie() {
         return get_cookie($this->this_cookie);
     }
 
@@ -105,8 +104,6 @@ class Main extends My_Controller {
         //$this->data['username'] = strtoupper($this->session->userdata('VUSERNAME'));
         //echo "test22". $this->session->userdata('username')." lalala";exit;
     }
-    
-    
 
     function logout() {
         $this->session->sess_destroy();
@@ -193,7 +190,7 @@ class Main extends My_Controller {
                         'DCREA' => $dcrea
                     );
                     $this->gm->insert("userpaket", $userpaket);
-                    
+
                     //insert user role
                     $userrole = array(
                         'USER_ID' => $id,
@@ -234,7 +231,7 @@ class Main extends My_Controller {
      */
     private function _failed() {
         $this->_front_check();
-        
+
         //$this->data['error_msg'] = "Email Telah Terdaftar";
         $this->load->view('failed', $this->data);
     }
@@ -276,15 +273,15 @@ class Main extends My_Controller {
 
         //print_r($output);
     }
-    
+
     /**
      * contact me
      */
-    function contact_me(){   
+    function contact_me() {
         $result = $this->_check_captcha($_POST['captcha']);
         $result = json_decode($result);
         //print_r($result);
-        if ($result->success == 1){
+        if ($result->success == 1) {
             $data = array(
                 'VNAME' => $this->security($this->input->post('name', TRUE)),
                 'VHPNUM' => $this->security($this->input->post('phone', TRUE)),
@@ -296,33 +293,55 @@ class Main extends My_Controller {
             $this->gm->insert("contactus", $data);
             //SEND TO MY EMAIL
         }
-        
     }
-    
+
     /**
      * frontpage
      * forgot
      */
-    function forgot(){
+    function forgot() {
         $this->_front_check();
         $this->load->view('forgot', $this->data);
     }
-    
+
     /**
      * frontpage
      * signin
      */
-    function signin(){
+    function signin() {
         $this->_front_check();
-        
+
         $email = $this->security($this->input->post('email', TRUE));
         $gagal_login = $this->security($this->input->get('gagal_login', TRUE));
-        if($email){
+        if ($email) {
             $this->data['email_success'] = TRUE;
-        } else if($gagal_login == 1){
+            //email change password
+            $new_password = $this->_generate_random_string(6);
+            //change password
+            $this->gm->update_data("users", array("VPASSWORD" => $new_password), 0, array("VEMAIL" => $email));
+            //send email new password
+            $this->load->library('email');
+            $this->email->from('no-reply@belajarujian.com');
+            $this->email->to($email);            
+            $this->email->subject('Reset Password');
+            $this->email->message('Password baru Anda: ' . $new_password . "\r\n\r\nRegards, \r\nBelajarUjian.com");
+            $this->email->send();
+            
+        } else if ($gagal_login == 1) {
             $this->data['gagal_login'] = TRUE;
         }
         $this->load->view('signin', $this->data);
+    }
+    
+
+    function _generate_random_string($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     /**
@@ -332,10 +351,10 @@ class Main extends My_Controller {
         $this->load->library('email'); // load email library
         $this->email->from('xand3r.leo@gmail.com', 'Leo Naga');
         $this->email->to('leo.nagaputra@gmail.com');
-        
+
         $this->email->subject('Your Subject');
         $this->email->message('Your Message');
-        
+
         if ($this->email->send())
             echo "Mail Sent!";
         else

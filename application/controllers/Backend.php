@@ -24,11 +24,7 @@ class Backend extends My_Controller {
 
     //put your code here
     public function index() {
-        $this->production = FALSE;
-        if ($this->production)
-            $this->_production();
-        else
-            $this->_under_development();
+        header('location:' . $this->data['base_url'] . "index.php/backend/home");
     }
 
     private function _cek_user_login() {
@@ -169,9 +165,10 @@ class Backend extends My_Controller {
             $this->session->set_userdata((array) $result);
             header('location:' . $this->data['base_url'] . 'index.php/backend/home');
         } else {
+            //echo "test";exit;
             header('location:' . $this->data['base_url'] . 'index.php/main/signin?gagal_login=1');
         }
-        $this->index();
+        //$this->index();
     }
 
     function go_to_home(){
