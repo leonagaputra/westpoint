@@ -229,7 +229,7 @@ function update_information(obj) {
     });
 }
 
-function paket_dialog(i, soal_id){
+function paket_dialog(i, soal_id, trial){
     //alert(i);;
     var title = $("#paket_title_"+i).text();
     var titlesh = $("#paket_titlesh_"+i).text();
@@ -246,9 +246,11 @@ function paket_dialog(i, soal_id){
     $("#modal_desc").html(desc);
     
     if (typeof soal_id === "undefined"){
+        //view paket di menu paket soal 
         $("#paket_id").val(i);
     }
     else{
+        //view paket di home
         if(soal_id == 0){
             $("#btn-latihan,#btn-quis,#btn-ujian").hide();
         } else {
@@ -256,7 +258,11 @@ function paket_dialog(i, soal_id){
             $("#btn-latihan").attr("href", main.base_url + "index.php/backend/latihan/" + soal_id);
             $("#btn-quis").attr("href", main.base_url + "index.php/backend/quis/" + soal_id);
             $("#btn-ujian").attr("href", main.base_url + "index.php/backend/ujian/" + soal_id);
-            $("#btn-latihan,#btn-quis,#btn-ujian").show();
+            $("#btn-latihan,#btn-quis").show();
+            if(trial == "F")
+                $("#btn-ujian").show();
+            else 
+                $("#btn-ujian").hide();
         }
     }
     
@@ -341,4 +347,14 @@ function startUjian(){
     //var ujianTime = 10,
             display = document.querySelector('title');
         startTimer(ujianTime, display);
+}
+
+function buy_paket(freetrial){
+    if(freetrial){
+        //alert('freetrial');
+        $("#freetrial").val("T");
+    } else {
+        $("#freetrial").val("F");
+    }
+    $("#form_paket").submit();
 }

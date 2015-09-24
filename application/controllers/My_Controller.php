@@ -11,7 +11,7 @@ class My_Controller extends CI_Controller {
         parent::__construct();
         $this->data['base_app'] = $this->config->item('base_app');
         $this->data['base_url'] = $this->config->item('base_url');
-        $this->data['version'] = "0.5";
+        $this->data['version'] = "0.6";
         $this->load->model('hak_akses', 'ha');
         $this->load->model('gen_model', 'gm');
         $this->load->model('paket', 'pk');
@@ -129,8 +129,8 @@ class My_Controller extends CI_Controller {
         //return $akses;
     }
     
-    protected function cek_user_soal($user_id, $soal_id){
-        if(!$this->pk->cek_user_soal($user_id, $soal_id)){
+    protected function cek_user_soal($user_id, $soal_id, $no_trial = FALSE){
+        if(!$this->pk->cek_user_soal($user_id, $soal_id, $no_trial)){
             header('location:' . $this->data['base_url'] . "index.php/backend/home");
         }
     }

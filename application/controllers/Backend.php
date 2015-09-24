@@ -403,18 +403,33 @@ class Backend extends My_Controller {
         $this->_get_backend_menu();
         
         //get detail soal
-        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);            
+        $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);     
+        
+        //CEK TRIAL / TIDAK
+        $is_trial = $this->pk->cek_user_soal($this->session->userdata('ID'), $soal_id, FALSE);
+        $jml_soal_trial = 20;
+        $trial_soal = array();
+        //echo $is_trial?"True":"False";exit;
                       
         $this->data['questions'] = array();
         //get detail questions                
-        if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
-            $random = $this->_randomize_question($questions);
-            $this->data['questions'] = $random['value'];
+        if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){            
+            if($is_trial){
+                $this->data['questions'] = array_slice($questions, 0, $jml_soal_trial);
+                for($i = 0; $i < $jml_soal_trial; $i++){
+                    array_push($trial_soal, $i+1);                    
+                }
+                $this->data['questions_id'] = implode(",", $trial_soal);                
+                $this->data['jumlah_soal'] = $jml_soal_trial;
+            } else {
+                $random = $this->_randomize_question($questions);
+                $this->data['questions'] = $random['value'];                
+                $this->data['questions_id'] = $random['index'];
+                $this->data['jumlah_soal'] = count($random['value']);
+            }    
         }
         
-        $this->data['questions'] = $random['value'];
-        $this->data['questions_id'] = $random['index'];
-        $this->data['jumlah_soal'] = count($random['value']);
+        
         //echo count($random['value']);exit;
         //print_r($random);exit;
         //print_r($this->data['questions']);exit;
@@ -424,7 +439,7 @@ class Backend extends My_Controller {
         
         
     }
-
+    
     /**
      * Menampilkan soal ujian, hasil disimpan 
      * @param type $soal_id
@@ -433,8 +448,10 @@ class Backend extends My_Controller {
         //cek login
         $this->_cek_user_login();
 
-        //cek user soal
-        $this->cek_user_soal($this->session->userdata('ID'), $soal_id);
+        //cek user soal 
+        //cek user soal paket, trial / tidak, jika trial, tidak boleh show ujian
+        $this->cek_user_soal($this->session->userdata('ID'), $soal_id, TRUE);         
+
         $this->_get_backend_menu();
         
         //get detail soal
@@ -479,15 +496,27 @@ class Backend extends My_Controller {
         $this->data['soal_desc'] = $this->gm->get("soal", array("ID"=>$soal_id), TRUE);        
         $this->data['questions'] = array();
         //get detail questions                
+        
+        //CEK TRIAL / TIDAK
+        $is_trial = $this->pk->cek_user_soal($this->session->userdata('ID'), $soal_id, FALSE);
+        $jml_soal_trial = 20;
+        //echo $is_trial?"True":"False";exit;
+        
         if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
-            $random = $this->_randomize_question($questions);
-            $this->data['questions'] = $random['value'];
+            if($is_trial){
+                $this->data['questions'] = array_slice($questions, 0, $jml_soal_trial);
+            } else {
+                $random = $this->_randomize_question($questions);
+                $this->data['questions'] = $random['value'];
+            }            
         }                                      
         //print_r($this->data['questions']);exit;
         
         $this->data['backend_page'] = 'form_soal/latihan.php';
         $this->load->view('home', $this->data);
     }
+    
+    
     
     function _randomize_question($questions){
         $return = array(
@@ -663,6 +692,7 @@ class Backend extends My_Controller {
         if(empty($_POST)){
             header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
         } 
+        $freetrial = ($this->get_input("freetrial")== "T")?"T" :"F";
         $paket_id = $this->get_input("paket_id");
         if($paket_id == 0)$this->go_to_home();
         
@@ -672,6 +702,7 @@ class Backend extends My_Controller {
         $data = array(
             "PAKET_ID" => $paket_id,
             "USER_ID" => $this->session->userdata('ID'),
+            "VTRIAL" => $freetrial,
             "VCREA" => "SYSTEM",
             "DCREA" => $dcrea,
             "DSTART" => $dcrea,
@@ -682,16 +713,23 @@ class Backend extends My_Controller {
             "err_message" => ""
         );
         //cek apakah user telah memiliki paket tersebut
-        if($cek = $this->pk->cek_user_paket($this->session->userdata('ID'),$paket_id)){
-            //print_r($cek);exit;
-            if($cek->cnt == 1){
-                //tampilkan error jika ada
+        //ambil semua data user paket
+        //if($cek = $this->pk->cek_user_paket($this->session->userdata('ID'),$paket_id)){
+        if($cek = $this->pk->cek_user_paket($this->session->userdata('ID'), $paket_id, FALSE)){
+            //jika FREETRIAL = F, VTRIAL = F, tampilkan error.
+            //jika FREETRIAL = F, VTRIAL = T --> punya trial, mau beli, bisa.
+            //jika FREETRIAL = T, VTRIAL = F, tampilkan error
+            //jika FREETRIAL = T, VTRIAL = T, tampilkan error
+            //if($cek->cnt == 1){
+            if($freetrial == "F" && $cek->VTRIAL = "T"){
+                $this->gm->update_data("userpaket", array("VTRIAL" => "F"), 0, array("PAKET_ID"=>$paket_id, "USER_ID" => $this->session->userdata('ID')));               
+            } else {
                 $this->data['beli_paket']["error"] = TRUE;
                 $this->data['beli_paket']["err_message"] = "Paket ini telah Anda miliki.";
-            } else {
-                //jika tidak ada, insert
-                $this->gm->insert("userpaket", $data);
             }
+        } else {
+            //jika user & paket tidak ditemukan, insert new
+            $this->gm->insert("userpaket", $data);
         }
         
         

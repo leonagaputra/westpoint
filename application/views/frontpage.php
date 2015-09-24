@@ -11,56 +11,9 @@
 
         <title>BelajarUjian.com</title>
 
-        <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-        <link href="<?php echo $base_url; ?>css/bootstrap-front/bootstrap.css?v=<?php echo $version; ?>" rel="stylesheet">
-
-        <!-- Theme style -->
-        <link href="<?php echo $base_url; ?>css/AdminLTE.min.css?v=<?php echo $version; ?>" rel="stylesheet"> 
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-        
-        <!-- Custom CSS -->    
-        <link href="<?php echo $base_url; ?>css/freelancer.css?v=<?php echo $version; ?>" rel="stylesheet">
-
-        <!-- Custom Fonts -->    
-        <link href="<?php echo $base_url; ?>css/font-awesome/css/font-awesome.min.css?v=<?php echo $version; ?>" rel="stylesheet">
-        <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-        <script src='https://www.google.com/recaptcha/api.js'></script>
-        
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <style>
-            .modal-header, h4, .close {
-                background-color: #18bc9c;
-                color:white !important;
-                text-align: center;
-                font-size: 30px;
-            }
-            .modal-footer {
-                background-color: #f9f9f9;
-            }
-            .btn-social > *:first-child{
-                left: 7px;
-                line-height: 34px;
-                position: absolute;
-                text-align: center;
-                top: 6px;
-                width: 32px;
-                font-size: 1em;
-                border-right: none;
-            }
-            
-            header .container {
-                padding-bottom: 100px;
-                padding-top: 150px;
-            }
-        </style>
+        <?php
+            require_once 'frontpage_style.php';
+        ?>
     </head>
 
     <body id="page-top" class="index">
@@ -139,7 +92,11 @@
                         <div>
                             <p>Basic Finance berisi soal-soal latihan beserta ujian soal untuk level dasar. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 10.000.</p>                            
                         </div>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <div>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <a href="<?php echo $base_url; ?>index.php/main/signup/1" class="btn btn-primary pull-right" >Free Trial</a>
+                            <div style="clear: both;"></div>
+                        </div>
                     </div>
                     
                 </div>
@@ -173,7 +130,11 @@
                         <div>
                             <p>Managerial Finance berisi soal-soal latihan beserta ujian soal untuk level managerial. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 30.000.</p>                            
                         </div>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <div>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <a href="<?php echo $base_url; ?>index.php/main/signup/2" class="btn btn-primary pull-right" >Free Trial</a>
+                            <div style="clear: both;"></div>
+                        </div>
                     </div>
                     
                 </div>
@@ -207,7 +168,11 @@
                         <div>
                             <p>Collection Finance berisi soal-soal latihan beserta ujian soal untuk level advanced. Ribuan soal yang kami miliki dapat kami sajikan sebagai bahan latihan Anda untuk menghadapi ujian dengan hanya Rp 50.000.</p>                            
                         </div>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        <div>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <a href="<?php echo $base_url; ?>index.php/main/signup/3" class="btn btn-primary pull-right" >Free Trial</a>
+                            <div style="clear: both;"></div>
+                        </div>
                     </div>
                     
                 </div>
@@ -437,43 +402,7 @@
         </section>
 
         <!-- Footer -->
-        <footer class="text-center">
-            <!--
-            <div class="footer-above">
-                <div class="container">
-                    <div class="row">
-                        <div class="footer-col col-md-4">
-                            <h3>Lokasi</h3>
-                            <p>Apartemen Greenlake<br>Tower Northern Park Residences <br>Lt. GF No. B12. <br>Jl. Danau Sunter Selatan</p>
-                        </div>
-                        <div class="footer-col col-md-4">
-                            <h3>Social Media</h3>
-                            <ul class="list-inline">
-                                <li>
-                                    <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-dribbble"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="footer-col col-md-4">
-                            <h3>Belajar Ujian</h3>
-                            <p>Siap sedia persiapkan Anda lulus ujian</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
+        <!--<footer class="text-center">            
             <div class="footer-below">
                 <div class="container">
                     <div class="row">
@@ -484,6 +413,10 @@
                 </div>
             </div>
         </footer>
+        -->
+        <?php
+            require_once 'frontpage_footer.php';
+        ?>
         
         
 
@@ -745,23 +678,9 @@
             </div>
         </div>
 
-        <!-- jQuery -->
-        <script src="<?php echo $base_url; ?>js/jQuery/jQuery-2.1.4.min.js?v=<?php echo $version; ?>"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="<?php echo $base_url; ?>js/bootstrap/bootstrap.min.js?v=<?php echo $version; ?>"></script>
-
-        <!-- Plugin JavaScript -->
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>    
-        <script src="<?php echo $base_url; ?>js/classie.js?v=<?php echo $version; ?>"></script>    
-        <script src="<?php echo $base_url; ?>js/cbpAnimatedHeader.js?v=<?php echo $version; ?>"></script>
-
-        <!-- Contact Form JavaScript -->    
-        <script src="<?php echo $base_url; ?>js/jqBootstrapValidation.js?v=<?php echo $version; ?>"></script>
-        <script src="<?php echo $base_url; ?>js/contact_me.js?v=<?php echo $version; ?>"></script>    
-
-        <!-- Custom Theme JavaScript -->    
-        <script src="<?php echo $base_url; ?>js/freelancer.js?v=<?php echo $version; ?>"></script>
+        <?php
+            require_once 'frontpage_script.php';
+        ?>
 
     </body>
 

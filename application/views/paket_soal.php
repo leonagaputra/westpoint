@@ -142,8 +142,11 @@
                 <div class="modal-footer">
                     <form id="form_paket" method="post" action="<?php echo $base_url;?>index.php/backend/beli_paket">
                         <input type="hidden" name="paket_id" id="paket_id" value="0"/>
+                        <input type="hidden" name="freetrial" id="freetrial" value="F"/>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>                    
-                        <input type="submit" class="btn btn-primary" value="Beli Paket" />
+                        <!--<input type="submit" class="btn btn-primary" value="Beli Paket" />-->
+                        <button type="button" class="btn btn-default" onclick="buy_paket(1)">Free Trial</button>  
+                        <button type="button" class="btn btn-primary" onclick="buy_paket()">Beli Paket</button>
                     </form>
                 </div>
             </div><!-- /.modal-content -->

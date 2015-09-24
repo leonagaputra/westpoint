@@ -63,7 +63,12 @@ class Main extends My_Controller {
      * frontpage
      * signup
      */
-    public function signup() {
+    public function signup($paket_id = NULL) {
+        $demo_packages = array(1,2,3);
+        $this->data['paket_id'] = 4;
+        if($paket_id != NULL && in_array($paket_id, $demo_packages)){
+            $this->data['paket_id'] = $paket_id;
+        }
         $this->data['remember_cookie'] = $this->_get_cookie();
         $this->data['captcha_error'] = FALSE;
         $this->load->view('signup', $this->data);
@@ -155,6 +160,9 @@ class Main extends My_Controller {
     function join_belajar_ujian() {
         $result = $this->_check_captcha($_POST['g-recaptcha-response']);
         $result = json_decode($result);
+        $demo_packages = array(1,2,3);
+        $paket_id = in_array($this->input->post('paket_id', TRUE), $demo_packages) ? $this->input->post('paket_id', TRUE) : 4;
+        
         //print_r($result);
         if ($result->success == 1) {
             //CAPTCHA sukses
@@ -163,7 +171,7 @@ class Main extends My_Controller {
             $vcrea = "SYSTEM";
             $data = array(
                 "VNAMA" => $this->security($this->input->post('nama', TRUE)),
-                "VEMAIL" => $this->security($this->input->post('email', TRUE)),
+                "VEMAIL" => strtolower($this->security($this->input->post('email', TRUE))),
                 "VPASSWORD" => $this->security($this->input->post('password', TRUE)),
                 "VPERUSAHAAN" => $this->security($this->input->post('perusahaan', TRUE)),
                 "VHPNUM" => $this->security($this->input->post('hape', TRUE)),
@@ -186,9 +194,15 @@ class Main extends My_Controller {
                         'USER_ID' => $id,
                         'DSTART' => $dcrea,
                         'DEND' => "2100-12-31 23:59:00",
+                        'VTRIAL' => 'T',
                         'VCREA' => $vcrea,
                         'DCREA' => $dcrea
                     );
+                    if($paket_id != 4){
+                        $userpaket['PAKET_ID'] = $paket_id;
+                        $userpaket['VTRIAL'] = "T";
+                    }
+                    
                     $this->gm->insert("userpaket", $userpaket);
 
                     //insert user role
@@ -223,6 +237,10 @@ class Main extends My_Controller {
     private function _success() {
         $this->_front_check();
         $this->load->view('success', $this->data);
+    }
+    
+    public function success(){
+        $this->_success();        
     }
 
     /**

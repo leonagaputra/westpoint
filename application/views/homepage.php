@@ -44,7 +44,7 @@
                                     $print .= '<i class="ion ion-ios-people"></i>';
                                 $print .= '</div>';
                                 //$print .= '<a href="#" data-toggle="modal" data-target="#detail_modal" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>';
-                                $print .= '<a href="#" class="small-box-footer" onclick="paket_dialog(\''.$class->ID.'\', \''.$class->SOAL_ID.'\')">More info <i class="fa fa-arrow-circle-right"></i></a>';
+                                $print .= '<a href="#" class="small-box-footer" onclick="paket_dialog(\''.$class->ID.'\', \''.$class->SOAL_ID.'\', \''.$class->VTRIAL.'\')">More info <i class="fa fa-arrow-circle-right"></i></a>';
                             $print .= '</div>';
                         $print .= '</div>';
                         if($row && !$start){
