@@ -290,7 +290,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     Siapkan dirimu hadapi ujian.
                 </div>
                 <!-- Default to the left -->
-                <strong>Copyright &copy; 2015 <a href="#"><?php echo $company ?></a>.</strong> All rights reserved.
+                <strong><a href="#"><?php echo $company ?></a> &copy; 2015.</strong> All rights reserved.                
             </footer>
 
             <!-- Control Sidebar -->

@@ -51,7 +51,7 @@
                             <a href="#" data-toggle="modal" data-target="#myModal">Log In</a>
                         </li>
                         <li class="active">
-                            <a href="<?php echo $base_url; ?>index.php/main/signup">Free Trial</a>
+                            <a href="<?php echo $base_url; ?>index.php/main/signup">Daftar Baru</a>
                         </li>
                     </ul>
                 </div>
@@ -74,11 +74,11 @@
                         <form class="form-horizontal" action="<?php echo $base_url ?>index.php/main/join_belajar_ujian" method="POST">
                             <input type="hidden" name="paket_id" value="<?php echo $paket_id; ?>">
                             <fieldset>
-                                <legend style="text-align:center;">Anda akan memulai dengan akun free trial</legend>
+                                <legend style="text-align:center;">Silakan isi data di bawah ini</legend>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputNama">Nama <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
-                                        <input name="nama" type="text" maxlength="100" placeholder="Nama" id="inputNama" class="form-control" required data-validation-required-message="Masukkan Nama Anda">                                        
+                                        <input name="nama" type="text" maxlength="100" placeholder="Nama" id="inputNama" class="form-control" required data-validation-required-message="Masukkan Nama Anda" title="Masukkan Nama Anda">                                        
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label" for="inputPassword">Password <span class="text-danger">*</span></label>
                                     <div class="col-lg-10">
-                                        <input name="password" type="password" maxlength="100" placeholder="Password" id="inputPassword" class="form-control" required>                                        
+                                        <input name="password" type="password" maxlength="100" placeholder="Password" id="inputPassword" class="form-control" pattern=".{6,}"   required title="Panjang Password Minimum 6 Karakter" >                                        
                                     </div>
                                 </div>
                                 <div class="form-group">

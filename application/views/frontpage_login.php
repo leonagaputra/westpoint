@@ -25,6 +25,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>                        
+                <p>Not a member? <a href="<?php echo $base_url; ?>index.php/main/signup">Sign Up</a></p>
                 <p>Forgot <a href="<?php echo $base_url; ?>index.php/main/forgot">Password?</a></p>
             </div>
         </div>

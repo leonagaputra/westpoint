@@ -51,7 +51,7 @@
                             <a href="#" data-toggle="modal" data-target="#myModal">Log In</a>
                         </li>
                         <li class="active">
-                            <a href="<?php echo $base_url; ?>index.php/main/signup">Free Trial</a>
+                            <a href="<?php echo $base_url; ?>index.php/main/signup">Daftar Baru</a>
                         </li>
                     </ul>
                 </div>

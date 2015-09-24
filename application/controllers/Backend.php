@@ -488,6 +488,7 @@ class Backend extends My_Controller {
         //cek login
         $this->_cek_user_login();
 
+        //echo $this->session->userdata('ID') . " " .$soal_id;exit;
         //cek user soal
         $this->cek_user_soal($this->session->userdata('ID'), $soal_id);
         $this->_get_backend_menu();
@@ -498,7 +499,7 @@ class Backend extends My_Controller {
         //get detail questions                
         
         //CEK TRIAL / TIDAK
-        $is_trial = $this->pk->cek_user_soal($this->session->userdata('ID'), $soal_id, FALSE);
+        $is_trial = $this->pk->cek_user_soal_is_trial($this->session->userdata('ID'), $soal_id);
         $jml_soal_trial = 20;
         //echo $is_trial?"True":"False";exit;
         

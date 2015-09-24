@@ -54,14 +54,46 @@ class Paket extends CI_Model {
         $this->db->where('s.ID', $soal_id);
         if($no_trial == TRUE){
             $this->db->where("up.VTRIAL", "F");
-        } else if ($no_trial == FALSE){
+        } 
+        /*else if ($no_trial == FALSE){
             $this->db->where("up.VTRIAL", "T");
-        }
-        if($query = $this->db->get())
+        }*/
+        $query = $this->db->get();
+        //echo $this->db->last_query();exit;
+        if($query)
         {
+            //$this->db->last_query();exit;
             if($query->num_rows() > 0)
             {   
                 return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    public function cek_user_soal_is_trial($user_id, $soal_id){
+        $this->db->select("up.VTRIAL");
+        $this->db->from($this->table. " p");            
+            $this->db->join('userpaket up', 'up.PAKET_ID = p.ID');
+            $this->db->join('users u', 'u.ID = up.USER_ID');
+            $this->db->join('paketmodul pm', 'pm.PAKET_ID = p.ID');
+            $this->db->join('modul m', 'pm.MODUL_ID = m.ID');
+            $this->db->join('soal s', 's.MODUL_ID = m.ID');
+        $this->db->where('u.ID', $user_id);
+        $this->db->where('s.ID', $soal_id);        
+        /*else if ($no_trial == FALSE){
+            $this->db->where("up.VTRIAL", "T");
+        }*/
+        $query = $this->db->get();
+        //echo $this->db->last_query();exit;
+        if($query)
+        {
+            //$this->db->last_query();exit;
+            if($query->num_rows() > 0)
+            {   
+                $result = $query->row();
+                if($result->VTRIAL == 'F') return FALSE;
+                else return TRUE;
             }
         }
         return FALSE;

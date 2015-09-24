@@ -4,7 +4,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="footer_left">
                     <!--=========== Designed By WpFreeware Team ================-->
-                    <p>BelajarUjian.com &copy; 2015 All Rights reserved</p>
+                    <p><strong><a href="#">BelajarUjian.com</a> &copy; 2015.</strong> All Rights reserved.</p>
                     <!--=========== Designed By WpFreeware Team ================-->
                 </div>
             </div>

@@ -1,9 +1,9 @@
 <?php 
-$szSecretKey = "YOUR_SECRET_KEY";
+$szSecretKey = "ozfRhIck36KYwmeM";
 $channel = "INDOSAT";
 
 $mapMerchant = array();
-$mapMerchant["guid"]		= "YOUR_GUID";
+$mapMerchant["guid"]		= "9571349C-EF2C-3889-3B40-DAEEE31F677B";
 $mapMerchant["reference"]	= "YOUR_TRANSACTION_NO";
 $mapMerchant["message"]		= "Hello UniPin, Welcome\\nLine 2\\nLine 3";
 $mapMerchant["urlAck"]		= "http://www.example.com/unipin/notification.php";

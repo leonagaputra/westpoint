@@ -49,7 +49,11 @@
                         }
                         echo $echo;
                     ?>
-                    
+                    <tr>
+                        <td colspan="2">
+                            <a class="btn btn-primary" onclick="window.location.href=window.location.href">Refresh</a>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
