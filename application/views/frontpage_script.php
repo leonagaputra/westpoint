@@ -15,3 +15,8 @@
 
 <!-- Custom Theme JavaScript -->    
 <script src="<?php echo $base_url; ?>js/freelancer.js?v=<?php echo $version; ?>"></script>
+<script>
+    var main = {
+        base_url : "<?php echo $base_url; ?>"
+    }
+</script>

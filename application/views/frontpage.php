@@ -184,7 +184,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <img class="img-responsive" width="256px" height="256px" src="<?php echo $base_url ?>img/staff.png" alt="">
+                        <img class="img-responsive" width="256px" height="256px" src="<?php echo $base_url ?>img/student1.png" alt="">
                         <div class="intro-text">
                             <span class="name">Belajar Ujian</span>
                             <hr class="star-light">

@@ -23,7 +23,7 @@ class Main extends My_Controller {
 
     //put your code here
     public function index() {
-        $this->production = FALSE;
+        $this->production = TRUE;
         if ($this->production)
             $this->_production();
         else
@@ -49,7 +49,8 @@ class Main extends My_Controller {
     private function _production() {
         //cek login
         //$this->_cek_user_login();
-        $this->load->view('starter', $this->data);
+        //$this->load->view('starter', $this->data);
+        $this->frontpage();
     }
 
     /**
@@ -158,6 +159,9 @@ class Main extends My_Controller {
      * fungsi insert new user
      */
     function join_belajar_ujian() {
+        if(empty($_POST)){
+            header('location:' . $this->data['base_url'] . "index.php/main/signup");
+        }
         $result = $this->_check_captcha($_POST['g-recaptcha-response']);
         $result = json_decode($result);
         $demo_packages = array(1,2,3);
@@ -224,6 +228,8 @@ class Main extends My_Controller {
             }
         } else {
             //CAPTCHA gagal
+            //echo "error";exit;
+            $this->data['paket_id'] = $paket_id;
             $this->data['captcha_error'] = TRUE;
             $this->load->view('signup', $this->data);
         }

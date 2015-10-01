@@ -505,7 +505,8 @@ class Backend extends My_Controller {
         
         if($questions = $this->gm->get("questions", array("SOAL_ID", $soal_id), FALSE, FALSE)){
             if($is_trial){
-                $this->data['questions'] = array_slice($questions, 0, $jml_soal_trial);
+                $random = $this->_randomize_question(array_slice($questions, 0, $jml_soal_trial), TRUE);
+                $this->data['questions'] = $random['value'];
             } else {
                 $random = $this->_randomize_question($questions);
                 $this->data['questions'] = $random['value'];
@@ -519,12 +520,15 @@ class Backend extends My_Controller {
     
     
     
-    function _randomize_question($questions){
+    function _randomize_question($questions, $is_trial = FALSE){
         $return = array(
             'index' => array(),
             'value' => array()
         );
-        $jml_soal = 60;
+        
+        $jml_soal = 60;        
+        if($is_trial) $jml_soal = 20;
+        //echo count($questions);exit;
         $rand_questions = array_rand($questions,$jml_soal);
         $rand_questions1 = array();
         
@@ -754,6 +758,45 @@ class Backend extends My_Controller {
         //print_r($this->data['result_ujian']);exit;
         
         $this->data['backend_page'] = 'paket.php';
+        $this->load->view('home', $this->data);
+    }
+    
+    function beli_paket_form(){
+        //print_r($_POST);exit;
+        //cek login
+        $this->_cek_user_login();
+        $this->_get_backend_menu();
+        
+        //if post empty
+        if(empty($_POST)){
+            header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
+        }
+        $paket_id = $this->get_input("paket_id");
+        $this->data['paket'] = $this->pk->get_paket($paket_id); 
+        
+        //echo "paket_id:".$paket_id;
+        //$this->data[]
+        $this->data['backend_page'] = 'form_beli_paket.php';
+        $this->load->view('home', $this->data);
+    }
+    
+    public function payment_status(){
+        //print_r($_POST);exit;
+        //cek login
+        $this->_cek_user_login();
+        $this->_get_backend_menu();
+        $paket_id = $this->get_input("paket_id");
+        //echo $paket_id;exit;
+        //if post empty
+        if(empty($_POST)||empty($paket_id)){
+            header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
+        }
+        
+        //$this->data['paket'] = $this->pk->get_paket($paket_id); 
+        
+        //echo "paket_id:".$paket_id;
+        //$this->data[]
+        $this->data['backend_page'] = 'payment_status.php';
         $this->load->view('home', $this->data);
     }
 

@@ -355,6 +355,24 @@ function buy_paket(freetrial){
         $("#freetrial").val("T");
     } else {
         $("#freetrial").val("F");
+        $("#form_paket").attr("action",main.base_url + "index.php/backend/beli_paket_form");
     }
     $("#form_paket").submit();
+}
+
+function open_payment(paket_id){
+    var frameSrc = "http://www.google.com";
+    //alert($("input[name=tipe_pembayaran]:checked").val());
+    if($("input[name=tipe_pembayaran]:checked").val() == "unipin"){
+        frameSrc = main.base_url + "index.php/payment/pay_unipin/unipin/" + paket_id;        
+    } else if($("input[name=tipe_pembayaran]:checked").val() == "telkomsel"){
+        frameSrc = main.base_url + "index.php/payment/pay_unipin/telkomsel/" + paket_id;        
+    } else if($("input[name=tipe_pembayaran]:checked").val() == "xl"){
+        frameSrc = main.base_url + "index.php/payment/pay_unipin/xl/" + paket_id;        
+    } else if($("input[name=tipe_pembayaran]:checked").val() == "indosat"){
+        frameSrc = main.base_url + "index.php/payment/pay_unipin/indosat/" + paket_id;        
+    }
+    $('#iframe_payment').attr("src",frameSrc);    
+    //$('#myModal').modal({show:true})
+    $("#detail_modal").modal('show');
 }

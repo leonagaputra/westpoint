@@ -110,9 +110,10 @@
                                     <label class="col-lg-2 control-label" for="inputCaptcha">Captcha</label>
                                     <div class="col-lg-10">
                                         <div class="g-recaptcha" data-sitekey="6LfosgsTAAAAANRF6GbfCFT1bQv6rR3GuwmYu1jT"></div>
-                                        <?php if ($captcha_error) { ?>
+                                        <?php if (isset($captcha_error) && $captcha_error == TRUE) { ?>
                                             <div class="text-danger">Pengenalan captcha gagal</div>
                                         <?php } ?>
+                                            
                                     </div>
 
                                 </div>
