@@ -23,7 +23,11 @@ class Main extends My_Controller {
 
     //put your code here
     public function index() {
-        $this->production = TRUE;
+        //echo $this->data['base_url'];exit;
+        if (strpos($this->data['base_url'],'beta') !== false && strpos($this->data['base_url'],'https') !== false) {
+            header('location:http://beta.belajarujian.com');
+        }
+        $this->production = FALSE;
         if ($this->production)
             $this->_production();
         else

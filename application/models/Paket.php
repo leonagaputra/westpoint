@@ -25,6 +25,21 @@ class Paket extends CI_Model {
         return FALSE;
     }
     
+    public function get_available_paket($user_id) {
+        $this->db->select("p.ID, p.VTITLE, p.VTITLESH, p.VDESC, k.VCOLOR");
+        $this->db->from($this->table. " p");
+            $this->db->join('kategori k', 'p.KATEGORI_ID = k.ID');
+        $this->db->where('p.ID NOT IN (SELECT PAKET_ID FROM userpaket WHERE USER_ID = '.$user_id." AND VTRIAL = 'F' AND DSTART <= now() AND DEND >= now())");
+        if($query = $this->db->get())
+        { //echo $this->db->last_query();exit;
+            if($query->num_rows() > 0)
+            {                
+                return $query->result();
+            }
+        }
+        return FALSE;
+    }
+    
     public function get_user_paket($user){
         $this->db->select("p.ID, p.VTITLE, p.VTITLESH, p.VDESC, k.VCOLOR, up.VTRIAL");
         $this->db->from($this->table. " p");
@@ -32,6 +47,8 @@ class Paket extends CI_Model {
             $this->db->join('userpaket up', 'up.PAKET_ID = p.ID');
             $this->db->join('users u', 'u.ID = up.USER_ID');
         $this->db->where('u.VEMAIL', $user);
+        $this->db->where('up.DSTART <= now()');
+        $this->db->where('up.DEND >= now()');
         if($query = $this->db->get())
         {
             if($query->num_rows() > 0)
@@ -52,6 +69,8 @@ class Paket extends CI_Model {
             $this->db->join('soal s', 's.MODUL_ID = m.ID');
         $this->db->where('u.ID', $user_id);
         $this->db->where('s.ID', $soal_id);
+        $this->db->where('up.DSTART <= now()');
+        $this->db->where('up.DEND >= now()');
         if($no_trial == TRUE){
             $this->db->where("up.VTRIAL", "F");
         } 
@@ -139,12 +158,20 @@ class Paket extends CI_Model {
         return FALSE;
     }
     
-    public function cek_user_paket($user_id, $paket_id, $count = TRUE){
+    public function cek_user_paket($user_id, $paket_id, $count = TRUE, $cek_aktif = FALSE, $cek_trial = FALSE){
         if($count)
             $this->db->select("count(USER_ID) as cnt");                
         $this->db->from("userpaket");            
         $this->db->where('USER_ID', $user_id);
         $this->db->where('PAKET_ID', $paket_id);
+        if($cek_aktif){
+            $this->db->where('DSTART <= now()');
+            $this->db->where('DEND >= now()');
+            //$this->db->where("VTRIAL", "F");
+        }
+        if($cek_trial){
+            $this->db->where("VTRIAL", "F");
+        }
         if($query = $this->db->get())
         {
             if($query->num_rows() > 0)
@@ -153,7 +180,24 @@ class Paket extends CI_Model {
             }
         }
         return FALSE;
-    }
+    } 
+    
+    public function cek_user_paket_aktif($user_id, $paket_id){        
+        $this->db->select("count(USER_ID) as cnt");                
+        $this->db->from("userpaket");            
+        $this->db->where('USER_ID', $user_id);
+        $this->db->where('PAKET_ID', $paket_id);        
+        $this->db->where('((DSTART <= now() AND DEND >= now()) AND VTRIAL = "F")');            
+            
+        if($query = $this->db->get())
+        {//echo $this->db->last_query();exit;
+            if($query->num_rows() > 0)
+            {                
+                return $query->row();
+            }
+        }
+        return FALSE;
+    } 
     
     public function get_paket($paket_id){     
         $this->db->select("p.ID, p.VTITLE, p.VTITLESH, p.VDESC, k.VCOLOR");

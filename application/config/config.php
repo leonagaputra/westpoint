@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['rel_http']	= "http://".$_SERVER['HTTP_HOST']."/westpoint/";
+$config['rel_http']	= "https://".$_SERVER['HTTP_HOST']."/westpoint/";
 $config['base_app']	= $config['rel_http']."application/";
 $config['base_url']     = $config['rel_http'];
 
@@ -97,7 +97,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

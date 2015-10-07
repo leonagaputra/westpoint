@@ -162,7 +162,7 @@
         document.getElementById("lblReference").innerHTML = _unipinResult.reference;
         document.getElementById("lblDescription").innerHTML = _unipinResult.message;
         */
-        m_pInterval = setInterval(timeOut, 5000);	// Timout in 5 seconds
+        m_pInterval = setInterval(timeOut, 2000);	// Timout in 2 seconds
     }
 
     function timeOut()

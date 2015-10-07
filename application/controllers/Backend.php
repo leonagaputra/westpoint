@@ -230,7 +230,8 @@ class Backend extends My_Controller {
         // dianalisa aja dulu, munculkan error msg aja kalau paket sudah terbeli
 
         $datas = NULL;
-        $datas = $this->pk->get_all_paket();
+        //$datas = $this->pk->get_all_paket();
+        $datas = $this->pk->get_available_paket($this->session->userdata('ID'));
         //print_r($datas);exit;
         $this->data['classes'] = $datas;
         $this->load->view('home', $this->data);
@@ -765,14 +766,27 @@ class Backend extends My_Controller {
         //print_r($_POST);exit;
         //cek login
         $this->_cek_user_login();
-        $this->_get_backend_menu();
+        $this->_get_backend_menu();             
         
         //if post empty
         if(empty($_POST)){
             header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
-        }
+        }  
+        
         $paket_id = $this->get_input("paket_id");
         $this->data['paket'] = $this->pk->get_paket($paket_id); 
+        $aktif = FALSE;  
+        //CEK PAKET AKTIF
+        //echo $this->session->userdata('ID'). " ". $paket_id;exit;
+        //if($query = $this->pk->cek_user_paket_aktif($this->session->userdata('ID'), $paket_id)){
+        if($query = $this->pk->cek_user_paket($this->session->userdata('ID'), $paket_id, TRUE, TRUE, TRUE)){
+            if($query->cnt > 0){                
+                $aktif = TRUE;
+            }
+        }  
+        if($aktif){
+            header('location:' . $this->data['base_url'] . "index.php/backend/paket_soal");
+        }
         
         //echo "paket_id:".$paket_id;
         //$this->data[]
