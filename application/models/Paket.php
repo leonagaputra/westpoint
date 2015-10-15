@@ -29,6 +29,7 @@ class Paket extends CI_Model {
         $this->db->select("p.ID, p.VTITLE, p.VTITLESH, p.VDESC, k.VCOLOR");
         $this->db->from($this->table. " p");
             $this->db->join('kategori k', 'p.KATEGORI_ID = k.ID');
+        $this->db->where("p.VJUAL", "T");
         $this->db->where('p.ID NOT IN (SELECT PAKET_ID FROM userpaket WHERE USER_ID = '.$user_id." AND VTRIAL = 'F' AND DSTART <= now() AND DEND >= now())");
         if($query = $this->db->get())
         { //echo $this->db->last_query();exit;
@@ -182,6 +183,27 @@ class Paket extends CI_Model {
         return FALSE;
     } 
     
+    public function cek_user_materi($user_id, $materi_id){
+        $this->db->select("count(up.USER_ID) as cnt");                
+        $this->db->from("userpaket up");      
+            $this->db->join('paket p', 'p.ID = up.PAKET_ID');
+            $this->db->join('paketmodul pm', 'pm.PAKET_ID = p.ID');
+            $this->db->join('modul m', 'm.ID = pm.MODUL_ID');
+            $this->db->join('materi ma', 'm.ID = ma.MODUL_ID');
+        $this->db->where('up.USER_ID', $user_id);
+        $this->db->where('ma.ID', $materi_id);
+        
+        if($query = $this->db->get())
+        {
+            //echo $this->db->last_query();exit;
+            if($query->num_rows() > 0)
+            {                
+                return $query->row();
+            }
+        }
+        return FALSE;
+    } 
+    
     public function cek_user_paket_aktif($user_id, $paket_id){        
         $this->db->select("count(USER_ID) as cnt");                
         $this->db->from("userpaket");            
@@ -209,6 +231,22 @@ class Paket extends CI_Model {
             if($query->num_rows() > 0)
             {                
                 return $query->row();
+            }
+        }
+        return FALSE;
+    }
+    
+    public function get_materi_by_paket($paket_id){
+        $this->db->select("mat.ID, mat.VDESC, mat.VEXT");
+        $this->db->from("materi mat");            
+            $this->db->join("modul m", "m.ID = mat.MODUL_ID");
+            $this->db->join("paketmodul pm", "pm.MODUL_ID = m.ID");        
+        $this->db->where("pm.PAKET_ID", $paket_id);
+        if($query = $this->db->get())
+        {
+            if($query->num_rows() > 0)
+            {                
+                return $query->result();
             }
         }
         return FALSE;

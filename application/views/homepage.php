@@ -20,6 +20,7 @@
             <?php
                 if($classes){
                     $i=0;
+                    $row_count = 0;
                     $print = "";
                     
                     foreach($classes as $class){
@@ -32,6 +33,7 @@
                         //print row
                         if($row){
                             $print .= '<div class="row">';
+                            //$row_count++;
                         }
                         $print .= '<div class="col-lg-3 col-xs-6">';
                             $print .= '<div id="paket_class_'.$class->ID.'" class="small-box '.$class->VCOLOR.'">';
@@ -47,7 +49,8 @@
                                 $print .= '<a href="#" class="small-box-footer" onclick="paket_dialog(\''.$class->ID.'\', \''.$class->SOAL_ID.'\', \''.$class->VTRIAL.'\')">More info <i class="fa fa-arrow-circle-right"></i></a>';
                             $print .= '</div>';
                         $print .= '</div>';
-                        if($row && !$start){
+                        //if($row && !$start){
+                        if(($i % 4)== 3){
                             $print .= '</div>';
                         }
                         $i++;

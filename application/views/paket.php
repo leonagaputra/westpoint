@@ -36,13 +36,62 @@
         </div>          
     </div>
     
+    <?php if(isset($materi) && $materi) { ?>
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-tag"></i> Materi</h3>
+        </div>
+        <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped example1">
+                <thead>
+                    <tr>
+                        <th>File</th>                                                                            
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $echo = "";
+                        foreach($materi as $obj){
+                            $echo .= "<tr>";
+                                $echo .= "<td><a href='".$base_url."index.php/backend/materi/".$obj->ID."'>".$obj->VDESC.".".$obj->VEXT."</a></td>";                                                                
+                            $echo .= "</tr>";
+                        }
+                        echo $echo;
+                    ?>
+                    <!--<tr>
+                        <td>Finance Basic</td>
+                        <td>15 Sep 2015 19:00</td>
+                        <td>90</td>                                       
+                    </tr>
+                    <tr>
+                        <td>Finance Basic</td>
+                        <td>16 Sep 2015 19:00</td>
+                        <td>80</td>                                             
+                    </tr>
+                    <tr>
+                        <td>Finance Basic</td>
+                        <td>17 Sep 2015 19:00</td>
+                        <td>40</td>                                              
+                    </tr>-->
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <tr>
+                        <th>File</th>                                                                                 
+                    </tr>
+                  </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <?php } ?>
     <?php if(isset($result_ujian) && $result_ujian) { ?>
     <div class="box box-default color-palette-box">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-tag"></i> History Ujian Anda</h3>
         </div>
         <div class="box-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="example1" class="table table-bordered table-striped example1">
                 <thead>
                     <tr>
                         <th>Soal Ujian</th>
@@ -134,7 +183,7 @@
 
 <script type="text/javascript">
     window.onload = function(){
-        $('#example1').DataTable({
+        $('.example1').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": false,

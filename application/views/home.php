@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <?php
-            require_once 'backend_style.php';
+        require_once 'backend_style.php';
         ?>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -166,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <li class="user-header">
                                         <img src="<?php echo $base_url; ?>img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                         <p>
-                                            <?php echo $nama;?> <!--- Web Developer-->
+                                            <?php echo $nama; ?> <!--- Web Developer-->
                                             <small>Member since <?php echo $join; ?></small>
                                         </p>
                                     </li>
@@ -186,9 +186,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     -->
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <!--<div class="pull-left">
-                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                        </div>-->
+                                        <div class="pull-left">
+                                            <a href="<?php echo $base_url; ?>index.php/backend/edit_profile" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
                                         <div class="pull-right">
                                             <a href="<?php echo $base_url; ?>index.php/backend/logout" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
@@ -241,23 +241,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li class="header">Menu</li>
                         <!-- Optionally, you can add icons to the links -->
                         <?php
-                            $print = "";
-                            foreach($menus as $menu){
-                                $print .= "<li ";
-                                    $print .= (($backend_page == $menu->VBACKEND)? 'class="active"':'');
-                                $print .= ">";
-                                    $print .= "<a href='".(($backend_page == $menu->VBACKEND)? '#':$base_url.$menu->VPATH)."'>";
-                                        $print .= "<i class='".$menu->VICON."'></i> <span>".$menu->VDESC."</span>";
-                                    $print .= "</a>";
-                                $print .= "</li>";
-                            }
-                            echo $print;
+                        $print = "";
+                        foreach ($menus as $menu) {
+                            $print .= "<li ";
+                            $print .= (($backend_page == $menu->VBACKEND) ? 'class="active"' : '');
+                            $print .= ">";
+                            $print .= "<a href='" . (($backend_page == $menu->VBACKEND) ? '#' : $base_url . $menu->VPATH) . "'>";
+                            $print .= "<i class='" . $menu->VICON . "'></i> <span>" . $menu->VDESC . "</span>";
+                            $print .= "</a>";
+                            $print .= "</li>";
+                        }
+                        echo $print;
                         ?>
                         <!--
-                        <li <?php echo (($backend_page == 'homepage.php')? 'class="active"':'') ?>><a href="<?php echo (($backend_page == 'homepage.php')? '#':$base_url.'index.php/backend/home') ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
-                        <li <?php echo (($backend_page == 'paket_soal.php')? 'class="active"':'') ?>><a href="<?php echo (($backend_page == 'paket_soal.php')? '#':$base_url.'index.php/backend/paket_soal') ?>"><i class="fa fa-book"></i> <span>Paket Soal</span></a></li>
+                        <li <?php echo (($backend_page == 'homepage.php') ? 'class="active"' : '') ?>><a href="<?php echo (($backend_page == 'homepage.php') ? '#' : $base_url . 'index.php/backend/home') ?>"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
+                        <li <?php echo (($backend_page == 'paket_soal.php') ? 'class="active"' : '') ?>><a href="<?php echo (($backend_page == 'paket_soal.php') ? '#' : $base_url . 'index.php/backend/paket_soal') ?>"><i class="fa fa-book"></i> <span>Paket Soal</span></a></li>
                         -->
-                        
+
                         <!--
                         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                         <li class="treeview">
@@ -276,9 +276,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <?php
-                    require_once $backend_page;
+                require_once $backend_page;
                 ?>
-                
+
                 <!-- Content Header (Page header) -->
                 <!-- /.content -->
             </div><!-- /.content-wrapper -->
@@ -357,7 +357,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div><!-- ./wrapper -->
 
         <?php
-            require_once 'backend_script.php';
+        require_once 'backend_script.php';
         ?>
 
 
@@ -365,5 +365,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
              Both of these plugins are recommended to enhance the
              user experience. Slimscroll is required when using the
              fixed layout. -->
+
+        <script>
+            $(document).ready(function () {
+                $("#inputHape").keydown(function (e) {
+                    // Allow: backspace, delete, tab, escape, enter and .
+                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                            // Allow: Ctrl+A
+                        (e.keyCode == 65 && e.ctrlKey === true) ||
+                         // Allow: Ctrl+C
+                        (e.keyCode == 67 && e.ctrlKey === true) ||
+                         // Allow: Ctrl+X
+                        (e.keyCode == 88 && e.ctrlKey === true) ||
+                        // Allow: home, end, left, right
+                        (e.keyCode >= 35 && e.keyCode <= 39)) {
+                        // let it happen, don't do anything
+                            return;
+                    }
+                            // Ensure that it is a number and stop the keypress
+                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

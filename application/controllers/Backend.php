@@ -215,6 +215,67 @@ class Backend extends My_Controller {
 
         $this->load->view('home', $this->data);
     }
+    
+    function edit_profile() {
+        //cek login
+        $this->_cek_user_login();
+        
+        //menu dan nama
+        $this->_get_backend_menu();
+
+        $this->data['backend_page'] = 'edit_profile.php';
+        
+        $vmodi = $this->session->userdata('VEMAIL');
+        $dmodi = date("Y-m-d H:i:s");
+        $status = array();
+        //echo "here";exit;
+        if(!empty($_POST)){
+            //echo "here";exit;
+            $id = $this->get_input("id");
+            $where = array(
+                "VEMAIL" => $this->security($this->get_input("email"))
+            );
+            $cek_id = 0;
+            if($cnt = $this->gm->get("users", $where, TRUE)){
+                $cek_id = $cnt->ID;
+            }
+             //echo $cek_id. " ".$id;          
+            if (($cek_id == $id) || $cek_id == 0) {
+                //echo "here";exit;
+                $data = array(
+                    "VNAMA" => $this->get_input("nama"),
+                    "VPERUSAHAAN" => $this->get_input("perusahaan"),
+                    "VEMAIL" => $this->get_input("email"),
+                    "VHPNUM" => $this->get_input("hape"),
+                    "VMODI" => $vmodi,
+                    "DMODI" => $dmodi
+                );
+                $password = $this->get_input("password");
+                if($password)$data["VPASSWORD"] = $password;
+                //echo "test";exit;
+                //UPDATE
+                $this->gm->update_data("users", $data, $id);
+                $status['status'] = TRUE;
+            }
+            else {
+                //
+                //echo "error";exit;
+                $status['status'] = FALSE;
+            }
+            
+            $this->data['update'] = $status;            
+            //print_r($this->data['update']);exit;
+        }
+        
+        // yang muncul tombol Beli Paket di paket soal hanya yang paket belum terbeli
+        // dianalisa aja dulu, munculkan error msg aja kalau paket sudah terbeli
+
+        $datas = NULL;
+        $datas = $this->gm->get("users",array('ID'=>$this->session->userdata('ID')), TRUE);
+        //print_r($datas);exit;
+        $this->data['user_profile'] = $datas;
+        $this->load->view('home', $this->data);
+    }
 
     function paket_soal() {
         //cek login
@@ -222,13 +283,12 @@ class Backend extends My_Controller {
         //cek user akses
         $this->cek_hak_akses($this->session->userdata('ID'), "index.php/backend/paket_soal");
         //menu dan nama
-        $this->_get_backend_menu();
+        $this->_get_backend_menu();        
 
         $this->data['backend_page'] = 'paket_soal.php';
         
         // yang muncul tombol Beli Paket di paket soal hanya yang paket belum terbeli
         // dianalisa aja dulu, munculkan error msg aja kalau paket sudah terbeli
-
         $datas = NULL;
         //$datas = $this->pk->get_all_paket();
         $datas = $this->pk->get_available_paket($this->session->userdata('ID'));
@@ -754,8 +814,10 @@ class Backend extends My_Controller {
         $this->cek_user_paket($user_id, $paket_id);
         $this->_get_backend_menu();
         
-        $this->data['paket'] = $this->pk->get_paket($paket_id);        
-        $this->data['result_ujian'] =$this->qs->get_soal_by_user_paket($user_id, $paket_id);
+        $this->data['paket'] = $this->pk->get_paket($paket_id);      
+        $this->data['materi'] = $this->pk->get_materi_by_paket($paket_id);
+        //print_r($this->data['materi']);exit;
+        $this->data['result_ujian'] = $this->qs->get_soal_by_user_paket($user_id, $paket_id);
         //print_r($this->data['result_ujian']);exit;
         
         $this->data['backend_page'] = 'paket.php';
@@ -812,6 +874,26 @@ class Backend extends My_Controller {
         //$this->data[]
         $this->data['backend_page'] = 'payment_status.php';
         $this->load->view('home', $this->data);
+    }
+    
+    public function materi($materi_id){
+        $this->_cek_user_login();
+        
+        //cek user materi
+        $this->cek_user_materi($this->session->userdata('ID'), $materi_id);
+        $materi = $this->gm->get("materi", array('ID'=>$materi_id), TRUE);
+        //print_r($materi);exit;
+        
+        $original_filename = $this->data['base_url']."materi/".$materi->ID.".".$materi->VEXT;
+        $new_filename = $materi->VDESC.".".$materi->VEXT;
+
+        // headers to send your file
+        // header("Content-Type: application/jpeg");
+        //header("Content-Length: " . filesize($original_filename));
+        header('Content-Disposition: attachment; filename="' . $new_filename . '"');
+
+        // upload the file to the user and quit
+        readfile($original_filename);        
     }
 
 }

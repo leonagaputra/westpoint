@@ -143,6 +143,13 @@ class My_Controller extends CI_Controller {
         }
     }
 
+    protected function cek_user_materi($user_id, $materi){
+        if($cek = $this->pk->cek_user_materi($user_id, $materi)){
+            if($cek->cnt != 1){
+                header('location:' . $this->data['base_url'] . "index.php/backend/home");
+            }                   
+        }
+    }
 }
 
 /* End of file welcome.php */
